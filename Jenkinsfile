@@ -8,7 +8,7 @@ pipeline {
             steps {
                 withMaven(maven: 'maven_3_6_2') {
                     // Run in non-interactive (batch) mode
-                	sh 'mvn -B -DskipTests=true clean package'
+                	sh 'mvn -B -DskipTests clean package'
                 }
             }
         }
