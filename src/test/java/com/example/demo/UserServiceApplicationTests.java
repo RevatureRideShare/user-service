@@ -8,13 +8,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class UserServiceApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+	 @Test
+	 void contextLoads() {
+	 }
 
 	@Test
-	void testTest(){
+	public void test() {
+		//this is a demo test and should always pass
 		assertTrue(true);
-	}
+	}	
 
 }
