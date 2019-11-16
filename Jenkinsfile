@@ -7,10 +7,11 @@ pipeline {
         stage ('Build') {
             steps {
                 withMaven(maven: 'maven_3_6_2') {
-                	sh 'mvn clean package'
+                    // Run in non-interactive (batch) mode
+                	sh 'mvn -B -DskipTests clean package'
                 }
             }
         }
     }
-    
+
 }
