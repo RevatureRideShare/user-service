@@ -6,8 +6,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class UserServiceApplicationTests {
 
+	// @Test
+	// void contextLoads() {
+	// }
+
 	@Test
-	void contextLoads() {
+	void testTest(){
 		assertTrue(true);
 	}
 
