@@ -22,7 +22,6 @@ import javax.validation.constraints.Positive;
 
 
 
-
 @Entity
 @Table(name="car")
 public class Car {
