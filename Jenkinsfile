@@ -34,6 +34,8 @@ pipeline {
                                   usernameVariable: 'USERNAME',
                                   passwordVariable: 'PASSWORD']]) {
 
+					sh 'cd /usr/local/bin/'
+					
                     sh 'cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD \
                     -o Revature Training -s development'
                     sh 'cf push'
