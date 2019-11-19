@@ -94,7 +94,7 @@ public class User {
 
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public User(UUID userID, @Email @NotEmpty String email, @NotEmpty @Size(max = 50) String firstName,
@@ -270,10 +270,6 @@ public class User {
 		return "User [userID=" + userID + ", email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
 				+ ", phoneNumber=" + phoneNumber + ", rideStatus=" + rideStatus + ", role=" + role + ", accountStatus="
 				+ accountStatus + ", locationID=" + locationID + ", car=" + car + "]";
-	}
-
-	
-	
-	
+	}	
 
 }

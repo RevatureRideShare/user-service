@@ -14,13 +14,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
-
  //! Authors: Jane Shin, Erik Haklar, Roberto Rodriguez
  //! This object's purpose is to hold a car. Its fields consist of:
  //! carID: a car id in which the object can be identified with this id
  //! seatNumber: this field is used to hold the number of seats a car can have, it has a minimum of 2 seats and a max of 50
-
-
 
 @Entity
 @Table(name="car")
@@ -41,7 +38,7 @@ public class Car {
 
 	public Car() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public Car(UUID carID, @NotEmpty @Positive @Min(2) @Max(50) int seatNumber) {
@@ -97,10 +94,6 @@ public class Car {
 	@Override
 	public String toString() {
 		return "Car [carID=" + carID + ", seatNumber=" + seatNumber + "]";
-	}
-	
-	
-	
-	
+	}	
 
 }
