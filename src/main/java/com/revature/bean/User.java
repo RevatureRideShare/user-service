@@ -45,7 +45,7 @@ public class User {
 	}
 	
 	@Id
-	@SequenceGenerator(name="UI_SEQ", sequenceName="user_id_seq")
+	@SequenceGenerator(name="UI_SEQ", sequenceName="user_id_seq",allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "UI_SEQ")
 	@Column(name="user_id")
 	private UUID userID;

@@ -24,7 +24,7 @@ import javax.validation.constraints.Positive;
 public class Car {
 	
 	@Id
-	@SequenceGenerator(name="CI_SEQ", sequenceName="car_id_seq")
+	@SequenceGenerator(name="CI_SEQ", sequenceName="car_id_seq",allocationSize=1)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "CI_SEQ")
 	@Column(name="car_id")
 	private UUID carID;
