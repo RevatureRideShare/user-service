@@ -21,6 +21,7 @@ pipeline {
         stage ('Test') {
             steps {
                 withMaven(maven: 'maven_3_6_2') {
+                	sh 'mvn verify sonar:sonar'
                     sh 'mvn test'
                 }
             }
