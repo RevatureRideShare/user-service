@@ -20,15 +20,16 @@ pipeline {
 
         stage ('Test') {
             steps {
-                withMaven(maven: 'maven_3_6_2') {
+                //withMaven(maven: 'maven_3_6_2') {
                 	sh 'mvn verify sonar:sonar'
-                }
+                //}
             }
         }
         
         
         stage ('Deploy') {
             steps {
+            //echo 'Deploy'
                 withCredentials([[$class          : 'UsernamePasswordMultiBinding',
                                   credentialsId   : 'PCF_LOGIN',
                                   usernameVariable: 'USERNAME',
