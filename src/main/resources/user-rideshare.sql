@@ -1,3 +1,8 @@
+create table car(
+car_id numeric primary key,
+seats int not null
+);
+
 create table users(
 user_id numeric primary key,
 email varchar(50) unique not null,
@@ -11,15 +16,11 @@ location_id numeric not null,
 car_id numeric references car(car_id)
 );
 
-create table car(
-car_id numeric primary key,
-seats int not null
-);
-
 create sequence user_id_seq;
-drop sequence user_id_seq;
 create sequence car_id_seq;
-drop sequence car_id_seq;
 
-drop table users;
-drop table car;
+--drop sequence user_id_seq;
+--drop sequence car_id_seq;
+
+--drop table users;
+--drop table car;
