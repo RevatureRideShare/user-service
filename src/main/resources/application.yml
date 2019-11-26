@@ -8,3 +8,14 @@ spring:
   cloud:
     config:
       uri: http://localhost:8888 
+  # Schema that the application assumes that the security table is in.
+  jpa:
+    properties:
+      hibernate:
+        default_schema: ${RIDESHARE_POSTGRES_1909_SCHEMA}
+  # Postgres DB location and login info.
+  datasource:
+    url: jdbc:postgresql://${RIDESHARE_POSTGRES_1909_URL}:5432/postgres?
+    username: ${RIDESHARE_POSTGRES_1909_USERNAME}
+    password: ${RIDESHARE_POSTGRES_1909_PASSWORD}
+      

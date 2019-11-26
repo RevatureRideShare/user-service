@@ -1,7 +1,5 @@
 package com.revature.bean;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -31,7 +29,10 @@ public class Car {
   @SequenceGenerator(name = "CI_SEQ", sequenceName = "car_id_seq", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CI_SEQ")
   @Column(name = "car_id")
-  private UUID carID;
+  private int carID;
+
+  @Column(name = "user_id")
+  int userID;
 
   @Column(name = "seats")
   @NotEmpty
@@ -45,24 +46,23 @@ public class Car {
 
   }
 
-
   /**
    * This Car constructor uses the below parameters.
    * 
    * @param carID The car id in which the car can be grabbed by
    * @param seatNumber The number of seats in the car
    */
-  public Car(UUID carID, @NotEmpty @Positive @Min(2) @Max(50) int seatNumber) {
+  public Car(int carID, @NotEmpty @Positive @Min(2) @Max(50) int seatNumber) {
     super();
     this.carID = carID;
     this.seatNumber = seatNumber;
   }
 
-  public UUID getCarID() {
+  public int getCarID() {
     return carID;
   }
 
-  public void setCarID(UUID carID) {
+  public void setCarID(int carID) {
     this.carID = carID;
   }
 
@@ -78,35 +78,28 @@ public class Car {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + ((carID == null) ? 0 : carID.hashCode());
+    result = prime * result + carID;
     result = prime * result + seatNumber;
     return result;
   }
 
+
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
+    if (this == obj)
       return true;
-    }
-    if (obj == null) {
+    if (obj == null)
       return false;
-    }
-    if (getClass() != obj.getClass()) {
+    if (getClass() != obj.getClass())
       return false;
-    }
     Car other = (Car) obj;
-    if (carID == null) {
-      if (other.carID != null) {
-        return false;
-      }
-    } else if (!carID.equals(other.carID)) {
+    if (carID != other.carID)
       return false;
-    }
-    if (seatNumber != other.seatNumber) {
+    if (seatNumber != other.seatNumber)
       return false;
-    }
     return true;
   }
+
 
   @Override
   public String toString() {
