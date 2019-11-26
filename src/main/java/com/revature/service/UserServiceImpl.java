@@ -29,7 +29,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<User> getAllUsersByRole(Role role) {
-    System.out.println("in service");
     return userRepo.findAllByRole(role);
   }
 
@@ -37,7 +36,7 @@ public class UserServiceImpl implements UserService {
   public User createUser(@RequestBody User user) {
     if (userRepo.findById(user.getUserID()).isPresent()) {
       System.out.println("Error");
-      throw new DuplicateKeyException("Object already exists in database");
+      throw new DuplicateKeyException("User already exists in database");
     } else {
       return userRepo.save(user);
     }
