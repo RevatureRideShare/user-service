@@ -4,11 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.revature.bean.Admin;
 import com.revature.bean.Car;
-import com.revature.bean.HousingLocation;
-import com.revature.bean.Security;
-import com.revature.bean.TrainingLocation;
 import com.revature.bean.User;
 import com.revature.repo.UserRepo;
 import com.revature.service.UserServiceImpl;
@@ -27,23 +23,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
 @SpringBootTest
-class TrainingLocationServiceImplTest {
-
+class UserServiceApplicationTest {
   @Mock
   private UserRepo userRepo;
 
   @InjectMocks
   private UserServiceImpl userServiceImpl = new UserServiceImpl();
 
-  private Admin admin;
-
   private Car car;
-
-  private HousingLocation housingLocation;
-
-  private Security security;
-
-  private TrainingLocation trainingLocation;
 
   private User newUser;
 
@@ -110,46 +97,4 @@ class TrainingLocationServiceImplTest {
       userServiceImpl.createUser(badFormatUser);
     });
   }
-
-  // @Test
-  // void testFindByIdNewTrainingLocation() {
-  // when(trainingLocationRepo.findById(newTrainingLocation.getTrainingLocationID()))
-  // .thenReturn(Optional.empty());
-  // assertEquals(Optional.empty(), trainingLocationServiceImpl
-  // .getTrainingLocation(newTrainingLocation.getTrainingLocationID()));
-  //
-  // }
-  //
-  // @Test
-  // void testFindByIdExistingTrainingLocation() {
-  // when(trainingLocationRepo.findById(existingTrainingLocation.getTrainingLocationID()))
-  // .thenReturn(Optional.of(existingTrainingLocation));
-  // assertEquals(Optional.of(existingTrainingLocation), trainingLocationServiceImpl
-  // .getTrainingLocation(existingTrainingLocation.getTrainingLocationID()));
-  // }
-  //
-  // @Test
-  // void testFindByIdNullTrainingLocation() {
-  // when(trainingLocationRepo.findById(null)).thenThrow(NullPointerException.class);
-  // Assertions.assertThrows(NullPointerException.class, () -> {
-  // trainingLocationServiceImpl.getTrainingLocation(nullTrainingLocation.getTrainingLocationID());
-  // });
-  // }
-  //
-  // @Test
-  // void testFindByIdBadFormatTrainingLocation() {
-  // when(trainingLocationRepo.findById(badFormatTrainingLocation.getTrainingLocationID()))
-  // .thenReturn(Optional.empty());
-  // assertEquals(Optional.empty(), trainingLocationServiceImpl
-  // .getTrainingLocation(badFormatTrainingLocation.getTrainingLocationID()));
-  // }
-  //
-  // @Test
-  // void testTrainingLocationList() {
-  // List<TrainingLocation> existingTLocationList = new ArrayList<>();
-  // existingTLocationList.add(existingTrainingLocation);
-  // when(trainingLocationRepo.findAll()).thenReturn(existingTLocationList);
-  // assertEquals(existingTLocationList, trainingLocationServiceImpl.getAllTrainingLocations());
-  // }
-
 }

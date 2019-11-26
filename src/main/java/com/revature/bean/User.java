@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -37,9 +35,10 @@ public class User {
     INACTIVE, ACTIVE
   }
 
-  private enum Role {
+  public enum Role {
     RIDER, DRIVER
   }
+
 
   @Id
   @SequenceGenerator(name = "UI_SEQ", sequenceName = "user_id_seq", allocationSize = 1)
@@ -48,46 +47,46 @@ public class User {
   private int userID;
 
   @Column(name = "email")
-  @Email
-  @NotEmpty
+  // @Email
+  // @NotEmpty
   private String email;
 
   @Column(name = "first_name")
-  @NotEmpty
-  @Size(max = 50)
+  // @NotEmpty
+  // @Size(max = 50)
   private String firstName;
 
   @Column(name = "last_name")
-  @NotEmpty
-  @Size(max = 50)
+  // @NotEmpty
+  // @Size(max = 50)
   private String lastName;
 
   @Column(name = "phone_number")
-  @NotEmpty
-  @Size(max = 20)
-  @Pattern(regexp = "^[0-9-]*$")
+  // @NotEmpty
+  // @Size(max = 20)
+  // @Pattern(regexp = "^[0-9-]*$")
   private String phoneNumber;
 
   @Column(name = "ride_status")
-  @NotEmpty
-  @Size(max = 25)
+  // @NotEmpty
+  // @Size(max = 25)
   RideStatus rideStatus;
 
   @Column(name = "role")
-  @NotEmpty
-  @Size(max = 25)
+  // @NotEmpty
+  // @Size(max = 25)
   Role role;
 
   @Column(name = "account_status")
   private boolean accountStatus;
 
   @Column(name = "location_id")
-  @NotEmpty
+  // @NotEmpty
   int locationID;
 
-  @JoinColumn(name = "car_id")
-  @OneToOne
-  Car car;
+  // @JoinColumn(name = "car_id")
+  // @OneToOne
+  // Car car;
 
   public User() {
     super();
@@ -125,7 +124,7 @@ public class User {
     this.role = role;
     this.accountStatus = accountStatus;
     this.locationID = locationID;
-    this.car = car;
+    // this.car = car;
   }
 
   public int getUserID() {
@@ -200,20 +199,20 @@ public class User {
     this.locationID = locationID;
   }
 
-  public Car getCar() {
-    return car;
-  }
+  /*
+   * public Car getCar() { return car; }
+   */
 
-  public void setCar(Car car) {
-    this.car = car;
-  }
+  /*
+   * public void setCar(Car car) { this.car = car; }
+   */
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
     result = prime * result + (accountStatus ? 1231 : 1237);
-    result = prime * result + ((car == null) ? 0 : car.hashCode());
+    // result = prime * result + ((car == null) ? 0 : car.hashCode());
     result = prime * result + ((email == null) ? 0 : email.hashCode());
     result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
     result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
@@ -236,11 +235,10 @@ public class User {
     User other = (User) obj;
     if (accountStatus != other.accountStatus)
       return false;
-    if (car == null) {
-      if (other.car != null)
-        return false;
-    } else if (!car.equals(other.car))
-      return false;
+    /*
+     * if (car == null) { if (other.car != null) return false; } else if (!car.equals(other.car))
+     * return false;
+     */
     if (email == null) {
       if (other.email != null)
         return false;
@@ -277,7 +275,7 @@ public class User {
     return "User [userID=" + userID + ", email=" + email + ", firstName=" + firstName
         + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber + ", rideStatus=" + rideStatus
         + ", role=" + role + ", accountStatus=" + accountStatus + ", locationID=" + locationID
-        + ", car=" + car + "]";
+        + /* ", car=" + car + */"]";
   }
 
 

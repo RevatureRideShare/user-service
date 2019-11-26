@@ -1,6 +1,7 @@
 package com.revature.repo;
 
 import com.revature.bean.User;
+import com.revature.bean.User.Role;
 
 import java.util.List;
 
@@ -12,6 +13,6 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
   public User findByEmail(String email);
 
-  public List<User> findAllByRole(String role);
+  public List<User> findAllByRole(Role role);
 
 }

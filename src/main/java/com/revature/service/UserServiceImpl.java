@@ -1,13 +1,17 @@
 package com.revature.service;
 
 import com.revature.bean.User;
+import com.revature.bean.User.Role;
 import com.revature.repo.UserRepo;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+@Service
 public class UserServiceImpl implements UserService {
 
   private UserRepo userRepo;
@@ -24,14 +28,15 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public List<User> getAllUsersByRole(String role) {
-
+  public List<User> getAllUsersByRole(Role role) {
+    System.out.println("in service");
     return userRepo.findAllByRole(role);
   }
 
   @Override
-  public User createUser(User user) {
+  public User createUser(@RequestBody User user) {
     if (userRepo.findById(user.getUserID()).isPresent()) {
+      System.out.println("Error");
       throw new DuplicateKeyException("Object already exists in database");
     } else {
       return userRepo.save(user);

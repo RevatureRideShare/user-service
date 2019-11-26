@@ -1,6 +1,7 @@
 package com.revature.service;
 
 import com.revature.bean.User;
+import com.revature.bean.User.Role;
 
 import java.util.List;
 
@@ -14,7 +15,8 @@ public interface UserService {
 
   User patchUser(User user); // added
 
-  List<User> getAllUsersByRole(String role); // added
+  // List<User> getAllUsersByRole(Role role);
+  List<User> getAllUsersByRole(Role role);
 
   User getUserByEmail(String email); // added
 
