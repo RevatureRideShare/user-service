@@ -31,7 +31,7 @@ import javax.validation.constraints.Size;
 @Table(name = "users")
 public class User {
 
-  private enum RideStatus {
+  public enum RideStatus {
     INACTIVE, ACTIVE
   }
 
@@ -47,41 +47,41 @@ public class User {
   private int userID;
 
   @Column(name = "email")
-  // @Email
-  // @NotEmpty
+  @Email
+  @NotEmpty
   private String email;
 
   @Column(name = "first_name")
-  // @NotEmpty
-  // @Size(max = 50)
+  @NotEmpty
+  @Size(max = 50)
   private String firstName;
 
   @Column(name = "last_name")
-  // @NotEmpty
-  // @Size(max = 50)
+  @NotEmpty
+  @Size(max = 50)
   private String lastName;
 
   @Column(name = "phone_number")
-  // @NotEmpty
-  // @Size(max = 20)
-  // @Pattern(regexp = "^[0-9-]*$")
+  @NotEmpty
+  @Size(max = 20)
+  @Pattern(regexp = "^[0-9-]*$")
   private String phoneNumber;
 
   @Column(name = "ride_status")
-  // @NotEmpty
-  // @Size(max = 25)
+  @NotEmpty
+  @Size(max = 25)
   RideStatus rideStatus;
 
   @Column(name = "role")
-  // @NotEmpty
-  // @Size(max = 25)
+  @NotEmpty
+  @Size(max = 25)
   Role role;
 
   @Column(name = "account_status")
   private boolean accountStatus;
 
   @Column(name = "location_id")
-  // @NotEmpty
+  @NotEmpty
   int locationID;
 
   // @JoinColumn(name = "car_id")
@@ -113,7 +113,7 @@ public class User {
       @NotEmpty @Size(max = 50) String lastName,
       @NotEmpty @Size(max = 20) @Pattern(regexp = "^[0-9-]*$") String phoneNumber,
       @NotEmpty @Size(max = 25) RideStatus rideStatus, @NotEmpty @Size(max = 25) Role role,
-      boolean accountStatus, @NotEmpty int locationID, Car car) {
+      boolean accountStatus, @NotEmpty int locationID) {
     super();
     this.userID = userID;
     this.email = email;

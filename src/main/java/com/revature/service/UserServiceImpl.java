@@ -2,6 +2,7 @@ package com.revature.service;
 
 import com.revature.bean.User;
 import com.revature.bean.User.Role;
+import com.revature.exception.UpdateNonexistentException;
 import com.revature.repo.UserRepo;
 
 import java.util.List;
@@ -23,7 +24,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public List<User> getAllUsers() {
-
     return userRepo.findAll();
   }
 
@@ -34,30 +34,43 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User createUser(@RequestBody User user) {
-    if (userRepo.findById(user.getUserID()).isPresent()) {
-      System.out.println("Error");
-      throw new DuplicateKeyException("User already exists in database");
+    if ("".equals(user.getEmail()) || user.getEmail() == null) {
+      throw new NullPointerException("Email address cannot be null");
+    } else {
+      if (userRepo.findByEmail(user.getEmail()) != null) {
+        throw new DuplicateKeyException("User already exists");
+      } else {
+        return userRepo.save(user);
+      }
+    }
+  }
+
+  @Override
+  public User updateUser(User user) {
+    if (user.getEmail() == null) {
+      throw new UpdateNonexistentException("This user does not exist");
     } else {
       return userRepo.save(user);
     }
   }
 
   @Override
-  public User updateUser(User user) {
-
-    return userRepo.save(user);
-  }
-
-  @Override
   public User patchUser(User user) {
-
-    return userRepo.save(user);
+    if (user.getEmail() == null) {
+      throw new UpdateNonexistentException("This user does not exist");
+    } else {
+      return userRepo.save(user);
+    }
   }
 
   @Override
   public User getUserByEmail(String email) {
 
-    return userRepo.findByEmail(email);
+    if ("".equals(email) || email == null) {
+      throw new NullPointerException("Email address cannot be null");
+    } else {
+      return userRepo.findByEmail(email);
+    }
   }
 
 }
