@@ -109,6 +109,11 @@
 		</dependency>
 		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-webmvc</artifactId> 
 			</dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-client -->
+		<dependency>
+    		<groupId>org.springframework.cloud</groupId>
+    		<artifactId>spring-cloud-starter-config</artifactId>
+		</dependency>
 	</dependencies>
 
 	<dependencyManagement>
