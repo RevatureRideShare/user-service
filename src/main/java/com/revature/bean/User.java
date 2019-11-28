@@ -68,20 +68,20 @@ public class User {
   private String phoneNumber;
 
   @Column(name = "ride_status")
-  @NotEmpty
-  @Size(max = 25)
+  //@NotEmpty
+  //@Size(max = 25)
   RideStatus rideStatus;
 
   @Column(name = "role")
-  @NotEmpty
-  @Size(max = 25)
+  //@NotEmpty
+  //@Size(max = 25)
   Role role;
 
   @Column(name = "account_status")
   private boolean accountStatus;
 
   @Column(name = "location_id")
-  @NotEmpty
+  //@NotEmpty
   int locationID;
 
   // @JoinColumn(name = "car_id")
@@ -112,8 +112,25 @@ public class User {
   public User(int userID, @Email @NotEmpty String email, @NotEmpty @Size(max = 50) String firstName,
       @NotEmpty @Size(max = 50) String lastName,
       @NotEmpty @Size(max = 20) @Pattern(regexp = "^[0-9-]*$") String phoneNumber,
-      @NotEmpty @Size(max = 25) RideStatus rideStatus, @NotEmpty @Size(max = 25) Role role,
-      boolean accountStatus, @NotEmpty int locationID) {
+      @NotEmpty @Size(max = 25) String rideStatus, @NotEmpty @Size(max = 25) String role,
+      boolean accountStatus, int locationID) {
+    super();
+    this.userID = userID;
+    this.email = email;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phoneNumber = phoneNumber;
+    this.rideStatus = RideStatus.valueOf(rideStatus);
+    this.role = Role.valueOf(role);
+    this.accountStatus = accountStatus;
+    this.locationID = locationID;
+    // this.car = car;
+  }
+
+  public User(int userID, @Email @NotEmpty String email, @NotEmpty @Size(max = 50) String firstName,
+      @NotEmpty @Size(max = 50) String lastName,
+      @NotEmpty @Size(max = 20) @Pattern(regexp = "^[0-9-]*$") String phoneNumber,
+      RideStatus rideStatus, Role role, boolean accountStatus, int locationID) {
     super();
     this.userID = userID;
     this.email = email;
@@ -124,7 +141,6 @@ public class User {
     this.role = role;
     this.accountStatus = accountStatus;
     this.locationID = locationID;
-    // this.car = car;
   }
 
   public int getUserID() {
