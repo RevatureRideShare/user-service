@@ -13,6 +13,8 @@ import com.revature.service.UserServiceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -174,19 +176,17 @@ class UserServiceApplicationTest {
     });
   }
 
-  // @Test
-  // void testUpdateEmptyStringUser() {
-  // User updatedEmptyStringUser =
-  // new User(0, existingUser.getEmail(), "", null, null, null, null, false, 0);
-  //
-  // when(userRepo.findByEmail(updatedEmptyStringUser.getEmail()))
-  // .thenReturn(updatedEmptyStringUser);
-  //
-  // when(userRepo.save(updatedEmptyStringUser))
-  // .thenThrow(ConstraintViolationException.class);
-  //
-  // Assertions.assertThrows(ConstraintViolationException.class, () -> {
-  // trainingLocationServiceImpl.updateTrainingLocation(updatedBadLocation);
-  // });
+  @Test
+  // Test that this method will throw a constraint violation exception
+  void testUpdateEmptyStringUser() {
+    User updatedEmptyStringUser =
+        new User(0, existingUser.getEmail(), "", null, null, null, null, false, 0);
+    when(userRepo.findByEmail(updatedEmptyStringUser.getEmail()))
+        .thenReturn(updatedEmptyStringUser);
+    when(userRepo.save(updatedEmptyStringUser)).thenThrow(ConstraintViolationException.class);
+    Assertions.assertThrows(ConstraintViolationException.class, () -> {
+      userServiceImpl.updateUser(updatedEmptyStringUser);
+    });
+  }
 }
 
