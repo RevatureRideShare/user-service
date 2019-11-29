@@ -1,6 +1,7 @@
 package com.revature.bean;
 
 public class HouseLocationDto {
+  private int housingLocationId;
   private String address1;
   private String address2;
   private String city;
@@ -8,6 +9,14 @@ public class HouseLocationDto {
   private String zipCode;
   private String housingLocationName;
   private TrainingLocationDto trainingLocationDto;
+
+  public int gethousingLocaitonId() {
+    return housingLocationId;
+  }
+
+  public void sethousingLocaitonId(int housingLocationId) {
+    this.housingLocationId = housingLocationId;
+  }
 
   public String getAddress1() {
     return address1;
@@ -65,6 +74,40 @@ public class HouseLocationDto {
     this.trainingLocationDto = trainingLocationDto;
   }
 
+  /**
+   * Housing location DTO constructor that takes in all elements.
+   * 
+   * @param housingLocationId ID representing a particular housing location DTO.
+   * @param address1 The street address.
+   * @param address2 The apartment number.
+   * @param city The city.
+   * @param state The state.
+   * @param zipCode The zip code.
+   * @param housingLocationName The name of the housing location.
+   * @param trainingLocationDto The training location DTO object.
+   */
+  public HouseLocationDto(int housingLocationId, String address1, String address2, String city,
+      String state, String zipCode, String housingLocationName,
+      TrainingLocationDto trainingLocationDto) {
+    super();
+    this.housingLocationId = housingLocationId;
+    this.address1 = address1;
+    this.address2 = address2;
+    this.city = city;
+    this.state = state;
+    this.zipCode = zipCode;
+    this.housingLocationName = housingLocationName;
+    this.trainingLocationDto = trainingLocationDto;
+  }
+
+  @Override
+  public String toString() {
+    return "HouseLocationDto [housingLocationId=" + housingLocationId + ", address1=" + address1
+        + ", address2=" + address2 + ", city=" + city + ", state=" + state + ", zipCode=" + zipCode
+        + ", housingLocationName=" + housingLocationName + ", trainingLocationDto="
+        + trainingLocationDto + "]";
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -72,6 +115,7 @@ public class HouseLocationDto {
     result = prime * result + ((address1 == null) ? 0 : address1.hashCode());
     result = prime * result + ((address2 == null) ? 0 : address2.hashCode());
     result = prime * result + ((city == null) ? 0 : city.hashCode());
+    result = prime * result + housingLocationId;
     result = prime * result + ((housingLocationName == null) ? 0 : housingLocationName.hashCode());
     result = prime * result + ((state == null) ? 0 : state.hashCode());
     result = prime * result + ((trainingLocationDto == null) ? 0 : trainingLocationDto.hashCode());
@@ -112,6 +156,9 @@ public class HouseLocationDto {
     } else if (!city.equals(other.city)) {
       return false;
     }
+    if (housingLocationId != other.housingLocationId) {
+      return false;
+    }
     if (housingLocationName == null) {
       if (other.housingLocationName != null) {
         return false;
@@ -141,38 +188,6 @@ public class HouseLocationDto {
       return false;
     }
     return true;
-  }
-
-  @Override
-  public String toString() {
-    return "HouseLocationDto [address1=" + address1 + ", address2=" + address2 + ", city=" + city
-        + ", state=" + state + ", zipCode=" + zipCode + ", housingLocationName="
-        + housingLocationName + ", trainingLocationDto=" + trainingLocationDto + "]";
-  }
-
-  /**
-   * HouseLocationDto is a Data Transfer Object that takes in a housing location object from angular
-   * and translates it to Java.
-   * 
-   * @param address1 Housing location address line one (Street, etc.).
-   * @param address2 Housing location address line two (building number, etc.).
-   * @param city Housing location's city.
-   * @param state Housing location's state.
-   * @param zipCode Housing location's zip code.
-   * @param housingLocationName The name of the housing location.
-   * @param trainingLocationDto A data transfer object that represents a training location.
-   */
-
-  public HouseLocationDto(String address1, String address2, String city, String state,
-      String zipCode, String housingLocationName, TrainingLocationDto trainingLocationDto) {
-    super();
-    this.address1 = address1;
-    this.address2 = address2;
-    this.city = city;
-    this.state = state;
-    this.zipCode = zipCode;
-    this.housingLocationName = housingLocationName;
-    this.trainingLocationDto = trainingLocationDto;
   }
 
   public HouseLocationDto() {
