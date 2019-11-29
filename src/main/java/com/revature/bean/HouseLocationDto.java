@@ -192,7 +192,6 @@ public class HouseLocationDto {
 
   public HouseLocationDto() {
     super();
-    // TODO Auto-generated constructor stub
   }
 
 }

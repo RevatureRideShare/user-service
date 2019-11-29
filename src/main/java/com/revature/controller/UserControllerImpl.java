@@ -1,6 +1,8 @@
 package com.revature.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.Car;
+import com.revature.bean.HouseLocationDto;
 import com.revature.bean.User;
 import com.revature.bean.User.Role;
 import com.revature.bean.UserDto;
@@ -8,8 +10,13 @@ import com.revature.service.CarService;
 import com.revature.service.UserDtoService;
 import com.revature.service.UserService;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
+import javax.ws.rs.HttpMethod;
 import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,35 +57,54 @@ public class UserControllerImpl implements UserController {
   // @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<?> createUser(@RequestBody(required = false) UserDto userDto) {
     System.out.println("Hit UserControllerImpl /user POST method.");
-    System.out.println(userDto);
+    System.out.println("UserDto:" + userDto);
     // Creates a new user object. Default account status is true.
     User user = userDtoService.translateDtoInput(userDto);
-    System.out.println(user);
+    System.out.println("User:" + user);
 
     String host = "localhost";
     String port = "8089";
-    // try {
-    // // Opening new HTTP Request to the location service to have it return a HousingDto.
-    // URL obj;
-    // obj = new URL("HTTP://" + host + ":" + port + "/housing-location");
-    // HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-    // con.setRequestMethod(HttpMethod.POST);
-    // int responseCode = con.getResponseCode();
-    // if (responseCode == HttpURLConnection.HTTP_OK) {
-    // // If the response code is an "OK".
-    // // Print the response.
-    // System.out.println("User response was Ok.");
-    // //con.getR
-    // //return new ResponseEntity(HttpStatus.OK);
-    // } else {
-    // // If the response was not an "OK", print the response code and tell the user.
-    // System.out.println("Request did not work. Status Code: " + responseCode);
-    // return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    // }
-    // } catch (Exception e) {
-    // return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    // }
 
+    try {
+      // Opening new HTTP Request to the location service to have it return a HousingDto.
+      URL obj;
+      obj = new URL("HTTP://" + host + ":" + port + "/housing-location");
+      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+      con.setRequestMethod(HttpMethod.GET);
+      int responseCode = con.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_OK) {
+        // If the response code is an "OK".
+        // Print the response. 
+        System.out.println("User response was Ok.");
+
+        // Get and print the response body.
+        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        while ((output = br.readLine()) != null) {
+          sb.append(output);
+        }
+        System.out.println("JSON: " + sb);
+
+        // Turn the JSON into an array of HouseLocationDtos.
+
+        try {
+          ObjectMapper om = new ObjectMapper();
+          HouseLocationDto[] arrLoc = om.readValue(sb.toString(), HouseLocationDto[].class);
+          System.out.println("Array of Locations: " + arrLoc);
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+
+        //return new ResponseEntity(HttpStatus.OK);
+      } else {
+        // If the response was not an "OK", print the response code and tell the user.
+        System.out.println("Request did not work. Status Code: " + responseCode);
+        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
 
     user = userService.createUser(user);
 
