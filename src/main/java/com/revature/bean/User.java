@@ -77,6 +77,8 @@ public class User {
   private boolean accountStatus;
 
   @Column(name = "location_id")
+
+  @NotEmpty
   int locationID;
 
   public User() {

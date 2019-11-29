@@ -129,7 +129,7 @@ class UserServiceApplicationTest {
   void testGetNewUser() {
     when(userRepo.findByEmail(newUser.getEmail())).thenReturn(newUser);
     assertEquals(newUser, userServiceImpl.getUserByEmail(newUser.getEmail()));
-    verify(userRepo).findByEmail("newUser@gamil.com");
+    verify(userRepo).findByEmail("newUser@gmail.com");
   }
 
   @Test
@@ -162,7 +162,7 @@ class UserServiceApplicationTest {
   // Test that this method will successfully update a user that already exists
   void testUpdateExistingUser() {
     User updatedUser = new User(0, existingUser.getEmail(), "Updated Existing User", null, null,
-        "RIDER", "ACTIVE", false, 0);
+        "ACTIVE", "RIDER", false, 0);
     when(userRepo.findByEmail(updatedUser.getEmail())).thenReturn(updatedUser);
     when(userRepo.save(updatedUser)).thenReturn(updatedUser);
     assertEquals(updatedUser, userServiceImpl.updateUser(updatedUser));
