@@ -34,7 +34,6 @@ public class Car {
   private int userID;
 
   @Column(name = "seats")
-  //@NotEmpty
   @Positive
   @Min(2)
   @Max(50)
@@ -95,19 +94,25 @@ public class Car {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     Car other = (Car) obj;
-    if (carID != other.carID)
+    if (carID != other.carID) {
       return false;
-    if (seatNumber != other.seatNumber)
+    }
+    if (seatNumber != other.seatNumber) {
       return false;
-    if (userID != other.userID)
+    }
+    if (userID != other.userID) {
       return false;
+    }
     return true;
   }
 

@@ -68,25 +68,16 @@ public class User {
   private String phoneNumber;
 
   @Column(name = "ride_status")
-  //@NotEmpty
-  //@Size(max = 25)
   RideStatus rideStatus;
 
   @Column(name = "role")
-  //@NotEmpty
-  //@Size(max = 25)
   Role role;
 
   @Column(name = "account_status")
   private boolean accountStatus;
 
   @Column(name = "location_id")
-  //@NotEmpty
   int locationID;
-
-  // @JoinColumn(name = "car_id")
-  // @OneToOne
-  // Car car;
 
   public User() {
     super();
@@ -107,7 +98,6 @@ public class User {
    * @param accountStatus The status of the user depending on whether their account is activated or
    *        deactivated
    * @param locationID The location id of the housing location associated with the user
-   * @param car The car object tied to the user
    */
   public User(int userID, @Email @NotEmpty String email, @NotEmpty @Size(max = 50) String firstName,
       @NotEmpty @Size(max = 50) String lastName,
@@ -124,9 +114,23 @@ public class User {
     this.role = Role.valueOf(role);
     this.accountStatus = accountStatus;
     this.locationID = locationID;
-    // this.car = car;
   }
 
+  /**
+   * This User constructor uses the below parameters.
+   * 
+   * @param userID The user id which the user can be grabbed by
+   * @param email The email address associated with the user
+   * @param firstName The first name of the user
+   * @param lastName The last name of the user
+   * @param phoneNumber The phone number associated with the user
+   * @param rideStatus The status of the user depending on whether they are giving/accepting rides
+   *        or not
+   * @param role The role of the user
+   * @param accountStatus The status of the user depending on whether their account is activated or
+   *        deactivated
+   * @param locationID The location id of the housing location associated with the user
+   */
   public User(int userID, @Email @NotEmpty String email, @NotEmpty @Size(max = 50) String firstName,
       @NotEmpty @Size(max = 50) String lastName,
       @NotEmpty @Size(max = 20) @Pattern(regexp = "^[0-9-]*$") String phoneNumber,
@@ -233,43 +237,59 @@ public class User {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     User other = (User) obj;
-    if (accountStatus != other.accountStatus)
+    if (accountStatus != other.accountStatus) {
       return false;
+    }
     if (email == null) {
-      if (other.email != null)
+      if (other.email != null) {
         return false;
-    } else if (!email.equals(other.email))
+      }
+    } else if (!email.equals(other.email)) {
       return false;
+    }
     if (firstName == null) {
-      if (other.firstName != null)
+      if (other.firstName != null) {
         return false;
-    } else if (!firstName.equals(other.firstName))
+      }
+    } else if (!firstName.equals(other.firstName)) {
       return false;
+    }
     if (lastName == null) {
-      if (other.lastName != null)
+      if (other.lastName != null) {
         return false;
-    } else if (!lastName.equals(other.lastName))
+      }
+    } else if (!lastName.equals(other.lastName)) {
       return false;
-    if (locationID != other.locationID)
+    }
+    if (locationID != other.locationID) {
       return false;
+    }
     if (phoneNumber == null) {
-      if (other.phoneNumber != null)
+      if (other.phoneNumber != null) {
         return false;
-    } else if (!phoneNumber.equals(other.phoneNumber))
+      }
+    } else if (!phoneNumber.equals(other.phoneNumber)) {
       return false;
-    if (rideStatus != other.rideStatus)
+    }
+    if (rideStatus != other.rideStatus) {
       return false;
-    if (role != other.role)
+    }
+    if (role != other.role) {
       return false;
-    if (userID != other.userID)
+    }
+    if (userID != other.userID) {
       return false;
+    }
     return true;
   }
 
