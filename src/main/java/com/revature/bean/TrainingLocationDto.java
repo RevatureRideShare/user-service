@@ -4,20 +4,33 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TrainingLocationDto {
+  private int trainingLocationId;
   private String trainingLocationName;
 
-  public String getTrainingLocationName() {
-    return trainingLocationName;
+
+  /**
+   * Training location DTO constructor.
+   * 
+   * @param trainingLocationId ID in the database that matches a particular training location.
+   * @param trainingLocationName Name in the database that matches a particular training location.
+   */
+  public TrainingLocationDto(int trainingLocationId, String trainingLocationName) {
+    super();
+    this.trainingLocationId = trainingLocationId;
+    this.trainingLocationName = trainingLocationName;
   }
 
-  public void setTrainingLocationName(String trainingLocationName) {
-    this.trainingLocationName = trainingLocationName;
+  @Override
+  public String toString() {
+    return "TrainingLocationDto [trainingLocationId=" + trainingLocationId
+        + ", trainingLocationName=" + trainingLocationName + "]";
   }
 
   @Override
   public int hashCode() {
     final int prime = 31;
     int result = 1;
+    result = prime * result + trainingLocationId;
     result =
         prime * result + ((trainingLocationName == null) ? 0 : trainingLocationName.hashCode());
     return result;
@@ -35,6 +48,9 @@ public class TrainingLocationDto {
       return false;
     }
     TrainingLocationDto other = (TrainingLocationDto) obj;
+    if (trainingLocationId != other.trainingLocationId) {
+      return false;
+    }
     if (trainingLocationName == null) {
       if (other.trainingLocationName != null) {
         return false;
@@ -45,13 +61,19 @@ public class TrainingLocationDto {
     return true;
   }
 
-  @Override
-  public String toString() {
-    return "TrainingLocationDto [trainingLocationName=" + trainingLocationName + "]";
+  public int getTrainingLocationId() {
+    return trainingLocationId;
   }
 
-  public TrainingLocationDto(String trainingLocationName) {
-    super();
+  public void setTrainingLocationId(int trainingLocationId) {
+    this.trainingLocationId = trainingLocationId;
+  }
+
+  public String getTrainingLocationName() {
+    return trainingLocationName;
+  }
+
+  public void setTrainingLocationName(String trainingLocationName) {
     this.trainingLocationName = trainingLocationName;
   }
 
