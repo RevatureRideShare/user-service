@@ -1,21 +1,21 @@
 package com.revature.bean;
 
-public class HouseLocationDto {
-  private int housingLocationId;
+public class HouseLocation {
+  private int locationID;
   private String address1;
   private String address2;
   private String city;
   private String state;
   private String zipCode;
   private String housingLocationName;
-  private TrainingLocationDto trainingLocationDto;
+  private TrainingLocation trainingLocation;
 
-  public int gethousingLocaitonId() {
-    return housingLocationId;
+  public int getlocationID() {
+    return locationID;
   }
 
-  public void sethousingLocaitonId(int housingLocationId) {
-    this.housingLocationId = housingLocationId;
+  public void setlocationID(int locationID) {
+    this.locationID = locationID;
   }
 
   public String getAddress1() {
@@ -66,46 +66,46 @@ public class HouseLocationDto {
     this.housingLocationName = housingLocationName;
   }
 
-  public TrainingLocationDto getTrainingLocationDto() {
-    return trainingLocationDto;
+  public TrainingLocation getTrainingLocation() {
+    return trainingLocation;
   }
 
-  public void setTrainingLocationDto(TrainingLocationDto trainingLocationDto) {
-    this.trainingLocationDto = trainingLocationDto;
+  public void setTrainingLocation(TrainingLocation trainingLocation) {
+    this.trainingLocation = trainingLocation;
   }
 
   /**
    * Housing location DTO constructor that takes in all elements.
    * 
-   * @param housingLocationId ID representing a particular housing location DTO.
+   * @param locationID ID representing a particular housing location DTO.
    * @param address1 The street address.
    * @param address2 The apartment number.
    * @param city The city.
    * @param state The state.
    * @param zipCode The zip code.
    * @param housingLocationName The name of the housing location.
-   * @param trainingLocationDto The training location DTO object.
+   * @param trainingLocation The training location DTO object.
    */
-  public HouseLocationDto(int housingLocationId, String address1, String address2, String city,
+  public HouseLocation(int locationID, String address1, String address2, String city,
       String state, String zipCode, String housingLocationName,
-      TrainingLocationDto trainingLocationDto) {
+      TrainingLocation trainingLocation) {
     super();
-    this.housingLocationId = housingLocationId;
+    this.locationID = locationID;
     this.address1 = address1;
     this.address2 = address2;
     this.city = city;
     this.state = state;
     this.zipCode = zipCode;
     this.housingLocationName = housingLocationName;
-    this.trainingLocationDto = trainingLocationDto;
+    this.trainingLocation = trainingLocation;
   }
 
   @Override
   public String toString() {
-    return "HouseLocationDto [housingLocationId=" + housingLocationId + ", address1=" + address1
-        + ", address2=" + address2 + ", city=" + city + ", state=" + state + ", zipCode=" + zipCode
-        + ", housingLocationName=" + housingLocationName + ", trainingLocationDto="
-        + trainingLocationDto + "]";
+    return "HouseLocation [locationID=" + locationID + ", address1=" + address1 + ", address2="
+        + address2 + ", city=" + city + ", state=" + state + ", zipCode=" + zipCode
+        + ", housingLocationName=" + housingLocationName + ", trainingLocation=" + trainingLocation
+        + "]";
   }
 
   @Override
@@ -115,10 +115,10 @@ public class HouseLocationDto {
     result = prime * result + ((address1 == null) ? 0 : address1.hashCode());
     result = prime * result + ((address2 == null) ? 0 : address2.hashCode());
     result = prime * result + ((city == null) ? 0 : city.hashCode());
-    result = prime * result + housingLocationId;
+    result = prime * result + locationID;
     result = prime * result + ((housingLocationName == null) ? 0 : housingLocationName.hashCode());
     result = prime * result + ((state == null) ? 0 : state.hashCode());
-    result = prime * result + ((trainingLocationDto == null) ? 0 : trainingLocationDto.hashCode());
+    result = prime * result + ((trainingLocation == null) ? 0 : trainingLocation.hashCode());
     result = prime * result + ((zipCode == null) ? 0 : zipCode.hashCode());
     return result;
   }
@@ -134,7 +134,7 @@ public class HouseLocationDto {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    HouseLocationDto other = (HouseLocationDto) obj;
+    HouseLocation other = (HouseLocation) obj;
     if (address1 == null) {
       if (other.address1 != null) {
         return false;
@@ -156,7 +156,7 @@ public class HouseLocationDto {
     } else if (!city.equals(other.city)) {
       return false;
     }
-    if (housingLocationId != other.housingLocationId) {
+    if (locationID != other.locationID) {
       return false;
     }
     if (housingLocationName == null) {
@@ -173,11 +173,11 @@ public class HouseLocationDto {
     } else if (!state.equals(other.state)) {
       return false;
     }
-    if (trainingLocationDto == null) {
-      if (other.trainingLocationDto != null) {
+    if (trainingLocation == null) {
+      if (other.trainingLocation != null) {
         return false;
       }
-    } else if (!trainingLocationDto.equals(other.trainingLocationDto)) {
+    } else if (!trainingLocation.equals(other.trainingLocation)) {
       return false;
     }
     if (zipCode == null) {
@@ -190,7 +190,7 @@ public class HouseLocationDto {
     return true;
   }
 
-  public HouseLocationDto() {
+  public HouseLocation() {
     super();
   }
 

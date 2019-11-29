@@ -2,7 +2,7 @@ package com.revature.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.Car;
-import com.revature.bean.HouseLocationDto;
+import com.revature.bean.HouseLocation;
 import com.revature.bean.User;
 import com.revature.bean.User.Role;
 import com.revature.bean.UserDto;
@@ -87,10 +87,9 @@ public class UserControllerImpl implements UserController {
         System.out.println("JSON: " + sb);
 
         // Turn the JSON into an array of HouseLocationDtos.
-
         try {
           ObjectMapper om = new ObjectMapper();
-          HouseLocationDto[] arrLoc = om.readValue(sb.toString(), HouseLocationDto[].class);
+          HouseLocation[] arrLoc = om.readValue(sb.toString(), HouseLocation[].class);
           System.out.println("Array of Locations: " + arrLoc);
         } catch (Exception e) {
           e.printStackTrace();

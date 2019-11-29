@@ -1,7 +1,7 @@
 package com.revature.service;
 
 import com.revature.bean.Car;
-import com.revature.bean.HouseLocationDto;
+import com.revature.bean.HouseLocation;
 import com.revature.bean.User;
 import com.revature.bean.UserDto;
 
@@ -13,7 +13,7 @@ public interface UserDtoService {
 
   UserDto translateDtoOutput(User user, Car car);
 
-  public UserDto translateDtoOutput(User user, Car car, HouseLocationDto houseLocationDto);
+  public UserDto translateDtoOutput(User user, Car car, HouseLocation houseLocation);
 
   public List<UserDto> translateDtoOutput(List<User> listUser);
 

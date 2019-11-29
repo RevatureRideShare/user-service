@@ -8,7 +8,7 @@ public class UserDto {
   private String rideStatus;
   private String role;
   private boolean accountStatus;
-  private HouseLocationDto houseLocationDto;
+  private HouseLocation houseLocation;
   private CarDto carDto;
 
   public String getEmail() {
@@ -67,12 +67,12 @@ public class UserDto {
     this.accountStatus = accountStatus;
   }
 
-  public HouseLocationDto getHouseLocationDto() {
-    return houseLocationDto;
+  public HouseLocation getHouseLocation() {
+    return houseLocation;
   }
 
-  public void setHouseLocationDto(HouseLocationDto houseLocationDto) {
-    this.houseLocationDto = houseLocationDto;
+  public void setHouseLocation(HouseLocation houseLocation) {
+    this.houseLocation = houseLocation;
   }
 
   public CarDto getCarDto() {
@@ -91,7 +91,7 @@ public class UserDto {
     result = prime * result + ((carDto == null) ? 0 : carDto.hashCode());
     result = prime * result + ((email == null) ? 0 : email.hashCode());
     result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-    result = prime * result + ((houseLocationDto == null) ? 0 : houseLocationDto.hashCode());
+    result = prime * result + ((houseLocation == null) ? 0 : houseLocation.hashCode());
     result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
     result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
     result = prime * result + ((rideStatus == null) ? 0 : rideStatus.hashCode());
@@ -136,11 +136,11 @@ public class UserDto {
     } else if (!firstName.equals(other.firstName)) {
       return false;
     }
-    if (houseLocationDto == null) {
-      if (other.houseLocationDto != null) {
+    if (houseLocation == null) {
+      if (other.houseLocation != null) {
         return false;
       }
-    } else if (!houseLocationDto.equals(other.houseLocationDto)) {
+    } else if (!houseLocation.equals(other.houseLocation)) {
       return false;
     }
     if (lastName == null) {
@@ -178,8 +178,8 @@ public class UserDto {
   public String toString() {
     return "UserDto [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName
         + ", phoneNumber=" + phoneNumber + ", rideStatus=" + rideStatus + ", role=" + role
-        + ", accountStatus=" + accountStatus + ", houseLocationDto=" + houseLocationDto
-        + ", carDto=" + carDto + "]";
+        + ", accountStatus=" + accountStatus + ", houseLocation=" + houseLocation + ", carDto="
+        + carDto + "]";
   }
 
   /**
@@ -192,12 +192,12 @@ public class UserDto {
    * @param rideStatus User's ride status.
    * @param role User's role.
    * @param accountStatus User's account status.
-   * @param houseLocationDto User's housing location (Housing object nested inside due to angular).
+   * @param houseLocation User's housing location (Housing object nested inside due to angular).
    * @param carDto User's car (Car object nested inside due to angular).
    */
 
   public UserDto(String email, String firstName, String lastName, String phoneNumber,
-      String rideStatus, String role, boolean accountStatus, HouseLocationDto houseLocationDto,
+      String rideStatus, String role, boolean accountStatus, HouseLocation houseLocation,
       CarDto carDto) {
     super();
     this.email = email;
@@ -207,7 +207,7 @@ public class UserDto {
     this.rideStatus = rideStatus;
     this.role = role;
     this.accountStatus = accountStatus;
-    this.houseLocationDto = houseLocationDto;
+    this.houseLocation = houseLocation;
     this.carDto = carDto;
   }
 

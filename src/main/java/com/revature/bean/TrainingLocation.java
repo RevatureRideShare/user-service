@@ -3,26 +3,26 @@ package com.revature.bean;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TrainingLocationDto {
-  private int trainingLocationId;
+public class TrainingLocation {
+  private int trainingLocationID;
   private String trainingLocationName;
 
 
   /**
    * Training location DTO constructor.
    * 
-   * @param trainingLocationId ID in the database that matches a particular training location.
+   * @param trainingLocationID ID in the database that matches a particular training location.
    * @param trainingLocationName Name in the database that matches a particular training location.
    */
-  public TrainingLocationDto(int trainingLocationId, String trainingLocationName) {
+  public TrainingLocation(int trainingLocationID, String trainingLocationName) {
     super();
-    this.trainingLocationId = trainingLocationId;
+    this.trainingLocationID = trainingLocationID;
     this.trainingLocationName = trainingLocationName;
   }
 
   @Override
   public String toString() {
-    return "TrainingLocationDto [trainingLocationId=" + trainingLocationId
+    return "TrainingLocationDto [trainingLocationID=" + trainingLocationID
         + ", trainingLocationName=" + trainingLocationName + "]";
   }
 
@@ -30,7 +30,7 @@ public class TrainingLocationDto {
   public int hashCode() {
     final int prime = 31;
     int result = 1;
-    result = prime * result + trainingLocationId;
+    result = prime * result + trainingLocationID;
     result =
         prime * result + ((trainingLocationName == null) ? 0 : trainingLocationName.hashCode());
     return result;
@@ -47,8 +47,8 @@ public class TrainingLocationDto {
     if (getClass() != obj.getClass()) {
       return false;
     }
-    TrainingLocationDto other = (TrainingLocationDto) obj;
-    if (trainingLocationId != other.trainingLocationId) {
+    TrainingLocation other = (TrainingLocation) obj;
+    if (trainingLocationID != other.trainingLocationID) {
       return false;
     }
     if (trainingLocationName == null) {
@@ -61,12 +61,12 @@ public class TrainingLocationDto {
     return true;
   }
 
-  public int getTrainingLocationId() {
-    return trainingLocationId;
+  public int getTrainingLocationID() {
+    return trainingLocationID;
   }
 
-  public void setTrainingLocationId(int trainingLocationId) {
-    this.trainingLocationId = trainingLocationId;
+  public void setTrainingLocationID(int trainingLocationID) {
+    this.trainingLocationID = trainingLocationID;
   }
 
   public String getTrainingLocationName() {
@@ -77,7 +77,7 @@ public class TrainingLocationDto {
     this.trainingLocationName = trainingLocationName;
   }
 
-  public TrainingLocationDto() {
+  public TrainingLocation() {
     super();
   }
 
