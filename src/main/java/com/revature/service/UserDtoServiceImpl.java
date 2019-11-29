@@ -6,7 +6,16 @@ import com.revature.bean.HouseLocationDto;
 import com.revature.bean.User;
 import com.revature.bean.UserDto;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
+
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.HttpMethod;
 
 import org.springframework.stereotype.Service;
 
@@ -25,13 +34,59 @@ public class UserDtoServiceImpl implements UserDtoService {
   public UserDto translateDtoOutput(User user, Car car) {
     CarDto carDto = new CarDto(car.getSeatNumber());
 
-    // Need to get houseLocationDto from location service. 
-    // Should get the houseLocationDto from the location service based on the housingLocationId.
-    HouseLocationDto houseLocationDto = null;
+    String host = "localhost";
+    String port = "8089";
+
+    // Need to get houseLocation from location service.
+    // Should get the houseLocation from the location service based on the housingLocationId.
+    HouseLocation houseLocation = null;
+
+    try {
+      // Opening new HTTP Request to the location service to have it gets the appropriate housing
+      // location.
+      URL obj =
+          new URL("HTTP://" + host + ":" + port + "/housing-location/" + user.getLocationID());
+      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+      con.setRequestMethod(HttpMethod.GET);
+
+      // Sending HTTP Request.
+      OutputStream os = con.getOutputStream();
+      OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+      osw.flush();
+      osw.close();
+      os.close();
+      System.out.println("Closed streams.");
+
+      // Reading response.
+      int responseCode = con.getResponseCode();
+      if (responseCode == HttpURLConnection.HTTP_CREATED) {
+        // If the response code is an "OK".
+        // Print the response code.
+        System.out.println("Request was successful. Status Code: " + responseCode + ".");
+
+        // Get and print the response body.
+        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
+        StringBuilder sb = new StringBuilder();
+        String output;
+        while ((output = br.readLine()) != null) {
+          sb.append(output);
+        }
+        System.out.println(sb);
+
+
+      } else {
+        throw new BadRequestException();
+      }
+
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new BadRequestException();
+    }
+
 
     UserDto userDto = new UserDto(user.getEmail(), user.getFirstName(), user.getLastName(),
         user.getPhoneNumber(), user.getRideStatus().toString(), user.getRole().toString(),
-        user.isAccountStatus(), houseLocationDto, carDto);
+        user.isAccountStatus(), houseLocation, carDto);
     return userDto;
   }
 
