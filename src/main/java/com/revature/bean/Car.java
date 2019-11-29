@@ -9,7 +9,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
 /**
@@ -32,10 +31,10 @@ public class Car {
   private int carID;
 
   @Column(name = "user_id")
-  int userID;
+  private int userID;
 
   @Column(name = "seats")
-  @NotEmpty
+  //@NotEmpty
   @Positive
   @Min(2)
   @Max(50)
@@ -50,11 +49,13 @@ public class Car {
    * This Car constructor uses the below parameters.
    * 
    * @param carID The car id in which the car can be grabbed by
+   * @param userID The user id that refers to the user who owns the car.
    * @param seatNumber The number of seats in the car
    */
-  public Car(int carID, @NotEmpty @Positive @Min(2) @Max(50) int seatNumber) {
+  public Car(int carID, int userID, @Positive @Min(2) @Max(50) int seatNumber) {
     super();
     this.carID = carID;
+    this.userID = userID;
     this.seatNumber = seatNumber;
   }
 
@@ -64,6 +65,14 @@ public class Car {
 
   public void setCarID(int carID) {
     this.carID = carID;
+  }
+
+  public int getUserID() {
+    return userID;
+  }
+
+  public void setUserID(int userID) {
+    this.userID = userID;
   }
 
   public int getSeatNumber() {
@@ -80,9 +89,9 @@ public class Car {
     int result = 1;
     result = prime * result + carID;
     result = prime * result + seatNumber;
+    result = prime * result + userID;
     return result;
   }
-
 
   @Override
   public boolean equals(Object obj) {
@@ -97,13 +106,14 @@ public class Car {
       return false;
     if (seatNumber != other.seatNumber)
       return false;
+    if (userID != other.userID)
+      return false;
     return true;
   }
 
-
   @Override
   public String toString() {
-    return "Car [carID=" + carID + ", seatNumber=" + seatNumber + "]";
+    return "Car [carID=" + carID + ", userID=" + userID + ", seatNumber=" + seatNumber + "]";
   }
 
 }

@@ -65,11 +65,13 @@ class UserServiceApplicationTest {
 
     existingUser = new User(26, "bmoney@gmail.com", "Brian", "Money", "3309842776",
         User.RideStatus.ACTIVE, User.Role.RIDER, true, 0);
-    newUser = new User(60, "newUser@gmail.com", "New", "User", "3309842776", null, null, false, 0);
+    newUser =
+        new User(60, "newUser@gmail.com", "New", "User", "3309842776", "RIDER", "ACTIVE", false, 0);
     nullUser = null;
-    nullEmailUser = new User(80, null, "Null", "Email", "3309842776", null, null, false, 0);
-    emptyStringEmailUser = new User(60, "", "Empty", "Email", "3309842776", null, null, false, 0);
-    car = new Car(1, 4);
+    nullEmailUser = new User(80, null, "Null", "Email", "3309842776", "RIDER", "ACTIVE", false, 0);
+    emptyStringEmailUser =
+        new User(60, "", "Empty", "Email", "3309842776", "RIDER", "ACTIVE", false, 0);
+    car = new Car(1, 4, 4);
 
   }
 
@@ -160,7 +162,7 @@ class UserServiceApplicationTest {
   // Test that this method will successfully update a user that already exists
   void testUpdateExistingUser() {
     User updatedUser = new User(0, existingUser.getEmail(), "Updated Existing User", null, null,
-        null, null, false, 0);
+        "RIDER", "ACTIVE", false, 0);
     when(userRepo.findByEmail(updatedUser.getEmail())).thenReturn(updatedUser);
     when(userRepo.save(updatedUser)).thenReturn(updatedUser);
     assertEquals(updatedUser, userServiceImpl.updateUser(updatedUser));
