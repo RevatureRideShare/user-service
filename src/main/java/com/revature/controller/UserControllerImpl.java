@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,8 +47,8 @@ public class UserControllerImpl implements UserController {
 
   @Override
   @PostMapping("/user")
-  @ResponseStatus(HttpStatus.CREATED)
-  public ResponseEntity createUser(@RequestBody UserDto userDto) {
+  // @ResponseStatus(HttpStatus.CREATED)
+  public ResponseEntity<?> createUser(@RequestBody(required = false) UserDto userDto) {
     System.out.println("Hit UserControllerImpl /user POST method.");
     System.out.println(userDto);
     // Creates a new user object. Default account status is true.
@@ -58,27 +57,27 @@ public class UserControllerImpl implements UserController {
 
     String host = "localhost";
     String port = "8089";
-    //    try {
-    //      // Opening new HTTP Request to the location service to have it return a HousingDto.
-    //      URL obj;
-    //      obj = new URL("HTTP://" + host + ":" + port + "/housing-location");
-    //      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-    //      con.setRequestMethod(HttpMethod.POST);
-    //      int responseCode = con.getResponseCode();
-    //      if (responseCode == HttpURLConnection.HTTP_OK) {
-    //        // If the response code is an "OK".
-    //        // Print the response. 
-    //        System.out.println("User response was Ok.");
-    //        //con.getR
-    //        //return new ResponseEntity(HttpStatus.OK);
-    //      } else {
-    //        // If the response was not an "OK", print the response code and tell the user.
-    //        System.out.println("Request did not work. Status Code: " + responseCode);
-    //        return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    //      }
-    //    } catch (Exception e) {
-    //      return new ResponseEntity(HttpStatus.BAD_REQUEST);
-    //    }
+    // try {
+    // // Opening new HTTP Request to the location service to have it return a HousingDto.
+    // URL obj;
+    // obj = new URL("HTTP://" + host + ":" + port + "/housing-location");
+    // HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    // con.setRequestMethod(HttpMethod.POST);
+    // int responseCode = con.getResponseCode();
+    // if (responseCode == HttpURLConnection.HTTP_OK) {
+    // // If the response code is an "OK".
+    // // Print the response.
+    // System.out.println("User response was Ok.");
+    // //con.getR
+    // //return new ResponseEntity(HttpStatus.OK);
+    // } else {
+    // // If the response was not an "OK", print the response code and tell the user.
+    // System.out.println("Request did not work. Status Code: " + responseCode);
+    // return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    // }
+    // } catch (Exception e) {
+    // return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    // }
 
 
     user = userService.createUser(user);
@@ -87,37 +86,52 @@ public class UserControllerImpl implements UserController {
     car = carService.createCar(car);
 
     UserDto response = userDtoService.translateDtoOutput(user, car);
-    return new ResponseEntity(response, HttpStatus.CREATED);
+    return new ResponseEntity<>(response, HttpStatus.CREATED);
   }
 
   @Override
   @PutMapping("/user/{email}")
-  public User updateUser(@PathVariable String email, @RequestBody UserDto userDto) {
-    return userService.updateUser(user);
+  public ResponseEntity<?> updateUser(@PathVariable String email, @RequestBody UserDto userDto) {
+    User user = userDtoService.translateDtoInput(userDto);
+    user = userService.updateUser(user);
+    Car car = carService.getCarByEmail(user.getEmail());
+    userDto = userDtoService.translateDtoOutput(user, car);
+    return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
 
   @Override
   @PatchMapping("/user/{email}") // only available to admin
-  public User activateOrInactivateUser(@PathVariable String email, @RequestBody UserDto userDto) {
-    return userService.patchUser(user);
+  public ResponseEntity<?> activateOrInactivateUser(@PathVariable String email,
+      @RequestBody UserDto userDto) {
+    User user = userDtoService.translateDtoInput(userDto);
+    user = userService.patchUser(user);
+    Car car = carService.getCarByEmail(user.getEmail());
+    userDto = userDtoService.translateDtoOutput(user, car);
+    return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
 
   @Override
   @GetMapping("/user/")
-  public List<User> getAllUsersByRole(@QueryParam("role") Role role) {
-    return userService.getAllUsersByRole(role);
+  public ResponseEntity<List<User>> getAllUsersByRole(@QueryParam("role") Role role) {
+    List<User> allUsersByRole = userService.getAllUsersByRole(role);
+    return new ResponseEntity<>(allUsersByRole, HttpStatus.OK);
   }
 
   @Override
   @GetMapping("/user")
-  public List<User> getAllUsers() {
-    return userService.getAllUsers();
+  public ResponseEntity<List<User>> getAllUsers() {
+    List<User> allUsers = userService.getAllUsers();
+
+    return new ResponseEntity<>(allUsers, HttpStatus.OK);
   }
 
   @Override
   @GetMapping("/user/{email}")
-  public User getUser(@PathVariable String email) {
-    return userService.getUserByEmail(email);
+  public ResponseEntity<?> getUser(@PathVariable String email) {
+    User user = userService.getUserByEmail(email);
+    Car car = carService.getCarByEmail(email);
+    UserDto userDto = userDtoService.translateDtoOutput(user, car);
+    return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
 
 }

@@ -66,11 +66,11 @@ class UserServiceApplicationTest {
     existingUser = new User(26, "bmoney@gmail.com", "Brian", "Money", "3309842776",
         User.RideStatus.ACTIVE, User.Role.RIDER, true, 0);
     newUser =
-        new User(60, "newUser@gmail.com", "New", "User", "3309842776", "RIDER", "ACTIVE", false, 0);
+        new User(60, "newUser@gmail.com", "New", "User", "3309842776", "ACTIVE", "RIDER", false, 0);
     nullUser = null;
-    nullEmailUser = new User(80, null, "Null", "Email", "3309842776", "RIDER", "ACTIVE", false, 0);
+    nullEmailUser = new User(80, null, "Null", "Email", "3309842776", "ACTIVE", "RIDER", false, 0);
     emptyStringEmailUser =
-        new User(60, "", "Empty", "Email", "3309842776", "RIDER", "ACTIVE", false, 0);
+        new User(60, "", "Empty", "Email", "3309842776", "ACTIVE", "RIDER", false, 0);
     car = new Car(1, 4, 4);
 
   }
@@ -181,8 +181,8 @@ class UserServiceApplicationTest {
   @Test
   // Test that this method will throw a constraint violation exception
   void testUpdateEmptyStringUser() {
-    User updatedEmptyStringUser =
-        new User(0, existingUser.getEmail(), "", null, null, null, null, false, 0);
+    User updatedEmptyStringUser = new User(0, existingUser.getEmail(), "", "Money", "3309842776",
+        User.RideStatus.ACTIVE, User.Role.RIDER, true, 0);
     when(userRepo.findByEmail(updatedEmptyStringUser.getEmail()))
         .thenReturn(updatedEmptyStringUser);
     when(userRepo.save(updatedEmptyStringUser)).thenThrow(ConstraintViolationException.class);

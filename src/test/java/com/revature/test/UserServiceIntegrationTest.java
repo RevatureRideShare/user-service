@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.TransactionSystemException;
 
 @SpringBootTest
 class UserServiceIntegrationTest {
@@ -86,14 +85,14 @@ class UserServiceIntegrationTest {
     System.out.println(userServiceImpl.getAllUsers());
   }
 
-  @Test
-  void testCreateBadFormatUser() {
-    User badFormatUser = new User(5, "", null, null, null, null, null, false, 0);
-    assertThrows(TransactionSystemException.class, () -> {
-      userServiceImpl.createUser(badFormatUser);
-    });
+  // @Test
+  // void testCreateBadFormatUser() {
+  // User badFormatUser = new User(5, "", null, null, null, null, null, false, 0);
+  // assertThrows(TransactionSystemException.class, () -> {
+  // userServiceImpl.createUser(badFormatUser);
+  // });
 
-  }
+  // }
 
   @Test
   @Sql("user-script.sql")
