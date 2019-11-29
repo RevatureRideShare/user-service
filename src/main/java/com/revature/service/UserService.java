@@ -15,7 +15,6 @@ public interface UserService {
 
   User patchUser(User user); // added
 
-  // List<User> getAllUsersByRole(Role role);
   List<User> getAllUsersByRole(Role role);
 
   User getUserByEmail(String email); // added

@@ -14,6 +14,7 @@ import javax.ws.rs.QueryParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,17 +49,45 @@ public class UserControllerImpl implements UserController {
   @Override
   @PostMapping("/user")
   @ResponseStatus(HttpStatus.CREATED)
-  public UserDto createUser(@RequestBody UserDto userDto) {
+  public ResponseEntity createUser(@RequestBody UserDto userDto) {
     System.out.println("Hit UserControllerImpl /user POST method.");
     System.out.println(userDto);
     // Creates a new user object. Default account status is true.
     User user = userDtoService.translateDtoInput(userDto);
     System.out.println(user);
+
+    String host = "localhost";
+    String port = "8089";
+    //    try {
+    //      // Opening new HTTP Request to the location service to have it return a HousingDto.
+    //      URL obj;
+    //      obj = new URL("HTTP://" + host + ":" + port + "/housing-location");
+    //      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+    //      con.setRequestMethod(HttpMethod.POST);
+    //      int responseCode = con.getResponseCode();
+    //      if (responseCode == HttpURLConnection.HTTP_OK) {
+    //        // If the response code is an "OK".
+    //        // Print the response. 
+    //        System.out.println("User response was Ok.");
+    //        //con.getR
+    //        //return new ResponseEntity(HttpStatus.OK);
+    //      } else {
+    //        // If the response was not an "OK", print the response code and tell the user.
+    //        System.out.println("Request did not work. Status Code: " + responseCode);
+    //        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    //      }
+    //    } catch (Exception e) {
+    //      return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    //    }
+
+
     user = userService.createUser(user);
+
     Car car = new Car(0, user.getUserID(), userDto.getCarDto().getSeatNumber());
     car = carService.createCar(car);
+
     UserDto response = userDtoService.translateDtoOutput(user, car);
-    return response;
+    return new ResponseEntity(response, HttpStatus.CREATED);
   }
 
   @Override

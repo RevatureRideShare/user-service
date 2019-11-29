@@ -3,20 +3,20 @@ package com.revature.controller;
 import com.revature.bean.User.Role;
 import com.revature.bean.UserDto;
 
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 public interface UserController {
 
-  public UserDto createUser(UserDto userDto);
+  public ResponseEntity createUser(UserDto userDto);
 
-  public UserDto updateUser(String email, UserDto userDto);
+  public ResponseEntity updateUser(String email, UserDto userDto);
 
-  public UserDto activateOrInactivateUser(String email, UserDto userDto);
+  public ResponseEntity activateOrInactivateUser(String email, UserDto userDto);
 
-  public List<UserDto> getAllUsersByRole(Role role);
+  public ResponseEntity getAllUsersByRole(Role role);
 
-  public List<UserDto> getAllUsers();
+  public ResponseEntity getAllUsers();
 
-  public UserDto getUser(String email);
+  public ResponseEntity getUser(String email);
 
 }

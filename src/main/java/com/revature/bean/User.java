@@ -294,6 +294,4 @@ public class User {
         + /* ", car=" + car + */"]";
   }
 
-
-
 }
