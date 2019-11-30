@@ -33,7 +33,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 @SpringBootTest
-class TrainingLocationControllerTest {
+class UserServiceControllerTest {
   @Mock
   UserService userService;
 
