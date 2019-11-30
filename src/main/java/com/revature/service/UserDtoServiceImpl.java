@@ -1,5 +1,6 @@
 package com.revature.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.Car;
 import com.revature.bean.CarDto;
 import com.revature.bean.HouseLocation;
@@ -8,8 +9,6 @@ import com.revature.bean.UserDto;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -46,21 +45,23 @@ public class UserDtoServiceImpl implements UserDtoService {
       // location.
       URL obj =
           new URL("HTTP://" + host + ":" + port + "/housing-location/" + user.getLocationID());
+      System.out
+          .println("HTTP://" + host + ":" + port + "/housing-location/" + user.getLocationID());
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.GET);
 
       // Sending HTTP Request.
-      con.setDoOutput(true);
-      OutputStream os = con.getOutputStream();
-      OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-      osw.flush();
-      osw.close();
-      os.close();
-      System.out.println("Closed streams.");
+      //      con.setDoOutput(true);
+      //      OutputStream os = con.getOutputStream();
+      //      OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+      //      osw.flush();
+      //      osw.close();
+      //      os.close();
+      //      System.out.println("Closed streams.");
 
       // Reading response.
       int responseCode = con.getResponseCode();
-      if (responseCode == HttpURLConnection.HTTP_CREATED) {
+      if (responseCode == HttpURLConnection.HTTP_OK) {
 
         // If the response code is an "OK".
         // Print the response code.
@@ -75,6 +76,8 @@ public class UserDtoServiceImpl implements UserDtoService {
         }
         System.out.println(sb);
 
+        ObjectMapper om = new ObjectMapper();
+        houseLocation = om.readValue(sb.toString(), HouseLocation.class);
 
       } else {
         throw new BadRequestException();
