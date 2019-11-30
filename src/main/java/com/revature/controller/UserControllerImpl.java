@@ -47,7 +47,6 @@ public class UserControllerImpl implements UserController {
 
   @Override
   @PostMapping("/user")
-  // @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<?> createUser(@RequestBody(required = false) UserDto userDto) {
     System.out.println("Hit UserControllerImpl /user POST method.");
     System.out.println("UserDto:" + userDto);
