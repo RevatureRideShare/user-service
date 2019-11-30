@@ -60,14 +60,6 @@ public class UserDtoServiceImpl implements UserDtoService {
       con.setRequestMethod(HttpMethod.GET);
 
       // Sending HTTP Request.
-      // con.setDoOutput(true);
-      // OutputStream os = con.getOutputStream();
-      // OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-      // osw.flush();
-      // osw.close();
-      // os.close();
-      // System.out.println("Closed streams.");
-
       // Reading response.
       int responseCode = con.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_OK) {
@@ -85,6 +77,7 @@ public class UserDtoServiceImpl implements UserDtoService {
         }
         System.out.println(sb);
 
+        // Translate from JSON into HouseLocation.
         ObjectMapper om = new ObjectMapper();
         houseLocation = om.readValue(sb.toString(), HouseLocation.class);
 
@@ -97,7 +90,7 @@ public class UserDtoServiceImpl implements UserDtoService {
       throw new BadRequestException();
     }
 
-
+    // Build new userDto object.
     UserDto userDto = new UserDto(user.getEmail(), user.getFirstName(), user.getLastName(),
         user.getPhoneNumber(), user.getRideStatus().toString(), user.getRole().toString(),
         user.isAccountStatus(), houseLocation, carDto);
@@ -117,25 +110,24 @@ public class UserDtoServiceImpl implements UserDtoService {
   @Override
   public List<UserDto> translateDtoOutput(List<User> listUser) {
 
-    // Get list of houseLocationDtos from the location service.
-    // Get list of cars from the database.
-    // Take each user object, combine with relevant houseLocationDto and car, run it through the
-    // trainslateDtoOutput method to get a UserDto back.
-    // Append each returned UserDto to a UserDto list.
-    // Return UserDto list.
     List<UserDto> translatedUsers = new LinkedList<>();
 
+    // Get list of cars from the database.
     List<Car> allCars = carService.getAllCars();
 
+    // Take each user object, combine with relevant car, run it through the
+    // trainslateDtoOutput method to get a UserDto back.
     for (User u : listUser) {
       for (Car c : allCars) {
         if (c.getUserID() == u.getUserID()) {
+          // Append each returned UserDto to a UserDto list.
           translatedUsers.add(translateDtoOutput(u, c));
           break;
         }
       }
     }
 
+    // Return UserDto list.
     return translatedUsers;
   }
 
