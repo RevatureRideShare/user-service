@@ -1,39 +1,80 @@
 pipeline {
 
     agent any
+    
+    triggers {
+    	pollSCM('') // Enabling being build on Push
+  	}
+  	
+  	options{
+  		disableConcurrentBuilds()
+  		buildDiscarder(logRotator(numToKeepStr: '10'))
+  	}
 
     stages {
 
         stage ('Build') {
             steps {
-                withMaven(maven: 'maven_3_6_2') {
-                    // Run in non-interactive (batch) mode
-                	sh 'mvn -B -DskipTests clean package'
-                }
+                
+                deleteDir()
+                checkout scm
+                
+                // Run in non-interactive (batch) mode
+                sh 'mvn -U -B -DskipTests clean package'
+            
             }
         }
 
         stage ('Test') {
             steps {
-                withMaven(maven: 'maven_3_6_2') {
-                    sh 'mvn test'
+            	sh 'mvn verify checkstyle:checkstyle'
+            	withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){
+                	sh '''
+                    export SONAR_SCANNER_VERSION=4.2.0.1873
+                    export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux
+                    export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+                    export SONAR_SCANNER_OPTS="-server"
+                    
+                    sonar-scanner \
+                    -Dsonar.projectKey=RevatureRideShare_user-service \
+                    -Dsonar.organization=b44ffadc-08d5-11ea-8d71-362b9e155667 \
+                    -Dsonar.sources=. \
+                    -Dsonar.host.url=https://sonarcloud.io/ \
+                    -Dsonar.login=fe1da3a6e3d7c47cc42e90e1cbd5746f40465b2a \
+                    -Dsonar.java.binaries=target/classes
+                    '''
                 }
             }
         }
         
+  		stage ('QualityGate') {
+  			steps{
+  				timeout(time: 1, unit: 'MINUTES'){
+  					waitForQualityGate abortPipeline: true
+  				}
+  			}
+  		}
+        
+
         stage ('Deploy') {
             steps {
                 withCredentials([[$class          : 'UsernamePasswordMultiBinding',
                                   credentialsId   : 'PCF_LOGIN',
                                   usernameVariable: 'USERNAME',
                                   passwordVariable: 'PASSWORD']]) {
-
-                    sh '/usr/local/bin/cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD'
-                    sh '/usr/local/bin/cf push'
+                    sh 'cf events rideshare-security-service'
+					sh 'cf logs rideshare-security-service --recent'
+                    sh 'cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD \
+                    -o "Revature Training" -s development'
+                    sh 'cf push'
                 }
             }
         }
-
     }
-    
+        
+     post{
+       	always{
+        	deleteDir()
+        }
+    }
 }
