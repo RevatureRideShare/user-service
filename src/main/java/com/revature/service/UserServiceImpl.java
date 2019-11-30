@@ -50,6 +50,8 @@ public class UserServiceImpl implements UserService {
     if (user.getEmail() == null) {
       throw new UpdateNonexistentException("This user does not exist");
     } else {
+      System.out.println("inside service");
+      System.out.println(user);
       return userRepo.save(user);
     }
   }

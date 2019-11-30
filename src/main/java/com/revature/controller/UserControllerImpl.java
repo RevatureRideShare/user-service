@@ -68,12 +68,31 @@ public class UserControllerImpl implements UserController {
   @Override
   @PutMapping("/user/{email}")
   public ResponseEntity<?> updateUser(@PathVariable String email, @RequestBody UserDto userDto) {
+
+    System.out.println("------------------------------------------");
     User user = userDtoService.translateDtoInput(userDto);
+    user = userService.getUserByEmail(user.getEmail());
+    System.out.println(email);
+    System.out.println(user);
     user = userService.updateUser(user);
+    System.out.println(user);
     Car car = carService.getCarByEmail(user.getEmail());
-    userDto = userDtoService.translateDtoOutput(user, car);
+    System.out.println(car);
+    if (car != null) {
+      userDto = userDtoService.translateDtoOutput(user, car);
+    } else {
+      userDto = userDtoService.translateDtoOutput(user);
+    }
+    System.out.println(userDto);
     return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
+
+  // @Override
+  // @PutMapping("/user/{email}")
+  // public User updateUser(@PathVariable String email, @RequestBody User user) {
+  // // User user = userService.getUserByEmail(email);
+  // return userService.updateUser(user);
+  // }
 
   @Override
   @PatchMapping("/user/{email}") // only available to admin

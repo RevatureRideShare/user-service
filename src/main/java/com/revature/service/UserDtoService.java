@@ -13,6 +13,8 @@ public interface UserDtoService {
 
   UserDto translateDtoOutput(User user, Car car);
 
+  UserDto translateDtoOutput(User user);
+
   public UserDto translateDtoOutput(User user, Car car, HouseLocation houseLocation);
 
   public List<UserDto> translateDtoOutput(List<User> listUser);
