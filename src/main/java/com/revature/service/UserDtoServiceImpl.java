@@ -60,6 +60,7 @@ public class UserDtoServiceImpl implements UserDtoService {
       // Reading response.
       int responseCode = con.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_CREATED) {
+
         // If the response code is an "OK".
         // Print the response code.
         System.out.println("Request was successful. Status Code: " + responseCode + ".");
@@ -102,6 +103,7 @@ public class UserDtoServiceImpl implements UserDtoService {
 
   @Override
   public List<UserDto> translateDtoOutput(List<User> listUser) {
+
     // Get list of houseLocationDtos from the location service.
     // Get list of cars from the database.
     // Take each user object, combine with relevant houseLocationDto and car, run it through the

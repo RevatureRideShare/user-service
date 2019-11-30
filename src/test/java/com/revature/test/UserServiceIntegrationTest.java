@@ -3,7 +3,9 @@ package com.revature.test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import com.revature.bean.Car;
 import com.revature.bean.User;
+import com.revature.service.CarServiceImpl;
 import com.revature.service.UserServiceImpl;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import org.springframework.transaction.TransactionSystemException;
 class UserServiceIntegrationTest {
 
   private UserServiceImpl userServiceImpl;
+  private CarServiceImpl carServiceImpl;
   private User existingUser;
   private User updatedUser;
   private User nullUser;
@@ -39,10 +42,21 @@ class UserServiceIntegrationTest {
   private User badFormatPhoneNumber;
   private User badFormatEmptyPhoneNumber;
   private User badFormatLargePhoneNumber;
+  private Car existingCar;
+  private Car badFormatCarNegativeSeats;
+  private Car badFormatCarLowSeats;
+  private Car badFormatCarHighSeats;
+  private Car nullCar;
+
 
   @Autowired
   public void setUserServiceImpl(UserServiceImpl userServiceImpl) {
     this.userServiceImpl = userServiceImpl;
+  }
+
+  @Autowired
+  public void setCarServiceImpl(CarServiceImpl carServiceImpl) {
+    this.carServiceImpl = carServiceImpl;
   }
 
   @BeforeAll
@@ -58,8 +72,10 @@ class UserServiceIntegrationTest {
   @BeforeEach
   void setUp() throws Exception {
     nullUser = null;
+    nullCar = null;
     existingUser = new User(1, "bmoney@gmail.com", "Brian", "Money", "3309842776",
         User.RideStatus.ACTIVE, User.Role.RIDER, true, 0);
+    existingCar = new Car(1, 1, 5);
     updatedUser = new User(2, "bmoney2@gmail.com", "NotChanged", "Money", "3309842776",
         User.RideStatus.ACTIVE, User.Role.RIDER, true, 0);
     nonExistingUser = new User(999, "IDontExist@gmail.com", "Brian", "Money", "3309842776",
@@ -89,6 +105,9 @@ class UserServiceIntegrationTest {
         User.Role.RIDER, true, 0);
     badFormatPhoneNumber = new User(13, "bf7@gmail.com", "Brian", "Money", "CallMeMaybe?",
         User.RideStatus.ACTIVE, User.Role.RIDER, true, 0);
+    badFormatCarNegativeSeats = new Car(1, 1, -5);
+    badFormatCarLowSeats = new Car(1, 1, 1);
+    badFormatCarHighSeats = new Car(1, 1, 51);
   }
 
   @AfterEach
@@ -104,6 +123,13 @@ class UserServiceIntegrationTest {
 
   @Test
   @Sql("user-script.sql")
+  @Sql("car-script.sql")
+  void testGetExistingCarByEmail() {
+    assertEquals(carServiceImpl.getCarByEmail(existingUser.getEmail()), existingCar);
+  }
+
+  @Test
+  @Sql("user-script.sql")
   void testGetAllUsers() {
     List<User> existingUserList = new ArrayList<>();
     existingUserList.add(existingUser);
@@ -115,7 +141,6 @@ class UserServiceIntegrationTest {
 
   @Test
   void testCreatebadFormatEmptyEmailUser() {
-    // User badFormatUser = new User(5, "", null, null, null, null, null, false, 0);
     assertThrows(NullPointerException.class, () -> {
       userServiceImpl.createUser(badFormatEmptyEmail);
     });
@@ -178,6 +203,27 @@ class UserServiceIntegrationTest {
   }
 
   @Test
+  void testCreateBadFormatCarNegativeSeats() {
+    assertThrows(TransactionSystemException.class, () -> {
+      carServiceImpl.createCar(badFormatCarNegativeSeats);
+    });
+  }
+
+  @Test
+  void testCreateBadFormatCarLowSeats() {
+    assertThrows(TransactionSystemException.class, () -> {
+      carServiceImpl.createCar(badFormatCarLowSeats);
+    });
+  }
+
+  @Test
+  void testCreateBadFormatCarHighSeats() {
+    assertThrows(TransactionSystemException.class, () -> {
+      carServiceImpl.createCar(badFormatCarHighSeats);
+    });
+  }
+
+  @Test
   @Sql("user-script.sql")
   void testCreateNewUser() {
     User extraNewUser = userServiceImpl.createUser(newUser);
@@ -185,7 +231,7 @@ class UserServiceIntegrationTest {
   }
 
   @Test
-  @Sql("training-location-script.sql")
+  @Sql("user-script.sql")
   void testCreateExistingUser() {
     assertThrows(DuplicateKeyException.class, () -> {
       userServiceImpl.createUser(existingUser);
@@ -196,6 +242,31 @@ class UserServiceIntegrationTest {
   void testCreateNullUser() {
     assertThrows(NullPointerException.class, () -> {
       userServiceImpl.createUser(nullUser);
+    });
+  }
+
+  @Test
+  @Sql("user-script.sql")
+  @Sql("car-script.sql")
+  void testCreateNewCar() {
+    Car car = new Car(2, 2, 4);
+    Car newCar = carServiceImpl.createCar(car);
+    assertEquals(newCar, carServiceImpl.getCarByEmail(updatedUser.getEmail()));
+  }
+
+  @Test
+  @Sql("user-script.sql")
+  @Sql("car-script.sql")
+  void testCreateExistingCar() {
+    assertThrows(DuplicateKeyException.class, () -> {
+      carServiceImpl.createCar(existingCar);
+    });
+  }
+
+  @Test
+  void testCreateNullCar() {
+    assertThrows(NullPointerException.class, () -> {
+      carServiceImpl.createCar(nullCar);
     });
   }
 

@@ -7,7 +7,9 @@ import static org.mockito.Mockito.when;
 import com.revature.bean.Car;
 import com.revature.bean.User;
 import com.revature.exception.UpdateNonexistentException;
+import com.revature.repo.CarRepo;
 import com.revature.repo.UserRepo;
+import com.revature.service.CarServiceImpl;
 import com.revature.service.UserServiceImpl;
 
 import java.util.ArrayList;
@@ -33,12 +35,21 @@ class UserServiceApplicationTest {
   private UserRepo userRepo;
 
   @Mock
+  private CarRepo carRepo;
+
+  @Mock
   private User user;
+
+  @Mock
+  private Car car;
 
   @InjectMocks
   private UserServiceImpl userServiceImpl = new UserServiceImpl();
 
-  private Car car;
+  @InjectMocks
+  private CarServiceImpl carServiceImpl = new CarServiceImpl();
+
+  private Car newCar;
 
   private User newUser;
 
@@ -71,7 +82,7 @@ class UserServiceApplicationTest {
     nullEmailUser = new User(80, null, "Null", "Email", "3309842776", "ACTIVE", "RIDER", false, 0);
     emptyStringEmailUser =
         new User(60, "", "Empty", "Email", "3309842776", "ACTIVE", "RIDER", false, 0);
-    car = new Car(1, 4, 4);
+    newCar = new Car(60, 4, 4);
 
   }
 
@@ -189,6 +200,23 @@ class UserServiceApplicationTest {
     Assertions.assertThrows(ConstraintViolationException.class, () -> {
       userServiceImpl.updateUser(updatedEmptyStringUser);
     });
+  }
+
+  @Test
+  // Test that this method will call .save and create a car
+  void testCreateNewCar() {
+    when(carRepo.save(newCar)).thenReturn(newCar);
+    assertEquals(newCar, carServiceImpl.createCar(newCar));
+    verify(carRepo).save(newCar);
+  }
+
+  @Test
+  // Test that this method will return the correct user and search for the correct email
+  void testGetNewCar() {
+    when(carRepo.findByUserID(newUser.getUserID())).thenReturn(newCar);
+    when(userRepo.findByEmail(newUser.getEmail())).thenReturn(newUser);
+    assertEquals(newCar, carServiceImpl.getCarByEmail(newUser.getEmail()));
+    verify(carRepo).findByUserID(60);
   }
 }
 

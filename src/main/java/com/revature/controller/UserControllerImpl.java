@@ -54,7 +54,6 @@ public class UserControllerImpl implements UserController {
 
   @Override
   @PostMapping("/user")
-  // @ResponseStatus(HttpStatus.CREATED)
   public ResponseEntity<?> createUser(@RequestBody(required = false) UserDto userDto) {
     System.out.println("Hit UserControllerImpl /user POST method.");
     System.out.println("UserDto:" + userDto);
@@ -66,6 +65,7 @@ public class UserControllerImpl implements UserController {
     String port = "8089";
 
     try {
+
       // Opening new HTTP Request to the location service to have it return a HousingDto.
       URL obj;
       obj = new URL("HTTP://" + host + ":" + port + "/housing-location");
@@ -73,8 +73,9 @@ public class UserControllerImpl implements UserController {
       con.setRequestMethod(HttpMethod.GET);
       int responseCode = con.getResponseCode();
       if (responseCode == HttpURLConnection.HTTP_OK) {
+
         // If the response code is an "OK".
-        // Print the response. 
+        // Print the response.
         System.out.println("User response was Ok.");
 
         // Get and print the response body.
@@ -95,14 +96,15 @@ public class UserControllerImpl implements UserController {
           e.printStackTrace();
         }
 
-        //return new ResponseEntity(HttpStatus.OK);
+        // return new ResponseEntity(HttpStatus.OK);
       } else {
+
         // If the response was not an "OK", print the response code and tell the user.
         System.out.println("Request did not work. Status Code: " + responseCode);
-        return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
     } catch (Exception e) {
-      return new ResponseEntity(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     user = userService.createUser(user);
