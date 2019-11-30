@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.User;
-import com.revature.controller.UserController;
+import com.revature.controller.UserControllerImpl;
 import com.revature.service.UserService;
 
 import java.util.HashMap;
@@ -38,7 +38,7 @@ class UserServiceControllerTest {
   UserService userService;
 
   @InjectMocks
-  UserController trainingLocationController;
+  UserControllerImpl userControllerImpl;
 
   private MockMvc mvc;
 
@@ -63,7 +63,7 @@ class UserServiceControllerTest {
   @BeforeEach
   void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
-    this.mvc = MockMvcBuilders.standaloneSetup(trainingLocationController).build();
+    this.mvc = MockMvcBuilders.standaloneSetup(userControllerImpl).build();
 
     newUser = new User(4, "NewUser@gmail.com", "Brian", "Money", "3309842776",
         User.RideStatus.ACTIVE, User.Role.RIDER, true, 0);
