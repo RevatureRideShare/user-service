@@ -15,6 +15,9 @@ public interface UserController {
 
   public ResponseEntity activateOrInactivateUser(String email, UserDto userDto);
 
+  // public ResponseEntity getAllUsersByRole(Role role);
+
+
   public ResponseEntity getAllUsersByRole(Role role);
 
   public ResponseEntity getAllUsers();

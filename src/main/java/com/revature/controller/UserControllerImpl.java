@@ -105,17 +105,18 @@ public class UserControllerImpl implements UserController {
 
   @Override
   @GetMapping("/user/")
-  public ResponseEntity<List<User>> getAllUsersByRole(@QueryParam("role") Role role) {
+  public ResponseEntity<?> getAllUsersByRole(@QueryParam("role") Role role) {
     List<User> allUsersByRole = userService.getAllUsersByRole(role);
-    return new ResponseEntity<>(allUsersByRole, HttpStatus.OK);
+    List<UserDto> userDtoList = userDtoService.translateDtoOutput(allUsersByRole);
+    return new ResponseEntity<>(userDtoList, HttpStatus.OK);
   }
 
   @Override
   @GetMapping("/user")
-  public ResponseEntity<List<User>> getAllUsers() {
+  public ResponseEntity<?> getAllUsers() {
     List<User> allUsers = userService.getAllUsers();
-
-    return new ResponseEntity<>(allUsers, HttpStatus.OK);
+    List<UserDto> userDtoList = userDtoService.translateDtoOutput(allUsers);
+    return new ResponseEntity<>(userDtoList, HttpStatus.OK);
   }
 
   @Override
