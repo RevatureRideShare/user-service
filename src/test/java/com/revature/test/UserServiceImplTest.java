@@ -29,7 +29,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DuplicateKeyException;
 
 @SpringBootTest
-class UserServiceApplicationTest {
+class UserServiceImplTest {
 
   @Mock
   private UserRepo userRepo;
