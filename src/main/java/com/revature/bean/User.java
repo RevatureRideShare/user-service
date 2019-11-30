@@ -78,7 +78,6 @@ public class User {
 
   @Column(name = "location_id")
 
-  @NotEmpty
   int locationID;
 
   public User() {

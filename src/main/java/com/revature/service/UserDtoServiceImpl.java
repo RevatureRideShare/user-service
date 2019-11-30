@@ -26,7 +26,7 @@ public class UserDtoServiceImpl implements UserDtoService {
   public User translateDtoInput(UserDto userDto) {
     User user = new User(0, userDto.getEmail(), userDto.getFirstName(), userDto.getLastName(),
         userDto.getPhoneNumber(), userDto.getRideStatus(), userDto.getRole(),
-        userDto.isAccountStatus(), 0);
+        userDto.isAccountStatus(), userDto.getHouseLocation().getlocationID());
     return user;
   }
 
@@ -50,6 +50,7 @@ public class UserDtoServiceImpl implements UserDtoService {
       con.setRequestMethod(HttpMethod.GET);
 
       // Sending HTTP Request.
+      con.setDoOutput(true);
       OutputStream os = con.getOutputStream();
       OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
       osw.flush();
