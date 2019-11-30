@@ -2,7 +2,7 @@ package com.revature.service;
 
 import com.revature.bean.Car;
 import com.revature.bean.CarDto;
-import com.revature.bean.HouseLocationDto;
+import com.revature.bean.HouseLocation;
 import com.revature.bean.User;
 import com.revature.bean.UserDto;
 
@@ -91,12 +91,12 @@ public class UserDtoServiceImpl implements UserDtoService {
   }
 
   @Override
-  public UserDto translateDtoOutput(User user, Car car, HouseLocationDto houseLocationDto) {
+  public UserDto translateDtoOutput(User user, Car car, HouseLocation houseLocation) {
     CarDto carDto = new CarDto(car.getSeatNumber());
 
     UserDto userDto = new UserDto(user.getEmail(), user.getFirstName(), user.getLastName(),
         user.getPhoneNumber(), user.getRideStatus().toString(), user.getRole().toString(),
-        user.isAccountStatus(), houseLocationDto, carDto);
+        user.isAccountStatus(), houseLocation, carDto);
     return userDto;
   }
 
