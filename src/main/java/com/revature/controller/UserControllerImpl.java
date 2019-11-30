@@ -61,47 +61,45 @@ public class UserControllerImpl implements UserController {
     car = carService.createCar(car);
 
     // Translates any changes back into a userDto object and returns them.
-    UserDto response = userDtoService.translateDtoOutput(user, car, userDto.getHouseLocation());
-    return new ResponseEntity<>(response, HttpStatus.CREATED);
+    if (car != null) {
+      userDto = userDtoService.translateDtoOutput(user, car, userDto.getHouseLocation());
+    } else {
+      userDto = userDtoService.translateDtoOutput(user, userDto.getHouseLocation());
+    }
+
+    return new ResponseEntity<>(userDto, HttpStatus.CREATED);
   }
 
   @Override
   @PutMapping("/user/{email}")
   public ResponseEntity<?> updateUser(@PathVariable String email, @RequestBody UserDto userDto) {
 
-    System.out.println("------------------------------------------");
     User user = userDtoService.translateDtoInput(userDto);
-    user = userService.getUserByEmail(user.getEmail());
-    System.out.println(email);
-    System.out.println(user);
+    User existingUser = userService.getUserByEmail(user.getEmail());
+    user.setUserID(existingUser.getUserID());
     user = userService.updateUser(user);
-    System.out.println(user);
     Car car = carService.getCarByEmail(user.getEmail());
-    System.out.println(car);
     if (car != null) {
-      userDto = userDtoService.translateDtoOutput(user, car);
+      userDto = userDtoService.translateDtoOutput(user, car, userDto.getHouseLocation());
     } else {
-      userDto = userDtoService.translateDtoOutput(user);
+      userDto = userDtoService.translateDtoOutput(user, userDto.getHouseLocation());
     }
-    System.out.println(userDto);
     return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
-
-  // @Override
-  // @PutMapping("/user/{email}")
-  // public User updateUser(@PathVariable String email, @RequestBody User user) {
-  // // User user = userService.getUserByEmail(email);
-  // return userService.updateUser(user);
-  // }
 
   @Override
   @PatchMapping("/user/{email}") // only available to admin
   public ResponseEntity<?> activateOrInactivateUser(@PathVariable String email,
       @RequestBody UserDto userDto) {
     User user = userDtoService.translateDtoInput(userDto);
-    user = userService.patchUser(user);
+    user = userService.getUserByEmail(user.getEmail());
+    user = userService.updateUser(user);
     Car car = carService.getCarByEmail(user.getEmail());
-    userDto = userDtoService.translateDtoOutput(user, car);
+    if (car != null) {
+      userDto = userDtoService.translateDtoOutput(user, car, userDto.getHouseLocation());
+    } else {
+      userDto = userDtoService.translateDtoOutput(user, userDto.getHouseLocation());
+    }
     return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
 

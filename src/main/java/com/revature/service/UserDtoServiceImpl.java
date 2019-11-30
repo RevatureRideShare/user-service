@@ -98,54 +98,7 @@ public class UserDtoServiceImpl implements UserDtoService {
   }
 
   @Override
-  public UserDto translateDtoOutput(User user) {
-
-    String host = "localhost";
-    String port = "8089";
-
-    // Need to get houseLocation from location service.
-    // Should get the houseLocation from the location service based on the housingLocationId.
-    HouseLocation houseLocation = null;
-
-    try {
-      // Opening new HTTP Request to the location service to have it gets the appropriate housing
-      // location.
-      URL obj =
-          new URL("HTTP://" + host + ":" + port + "/housing-location/" + user.getLocationID());
-      System.out
-          .println("HTTP://" + host + ":" + port + "/housing-location/" + user.getLocationID());
-      HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-      con.setRequestMethod(HttpMethod.GET);
-
-      // Reading response.
-      int responseCode = con.getResponseCode();
-      if (responseCode == HttpURLConnection.HTTP_OK) {
-
-        // If the response code is an "OK".
-        // Print the response code.
-        System.out.println("Request was successful. Status Code: " + responseCode + ".");
-
-        // Get and print the response body.
-        BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
-        StringBuilder sb = new StringBuilder();
-        String output;
-        while ((output = br.readLine()) != null) {
-          sb.append(output);
-        }
-        System.out.println(sb);
-
-        ObjectMapper om = new ObjectMapper();
-        houseLocation = om.readValue(sb.toString(), HouseLocation.class);
-
-      } else {
-        throw new BadRequestException();
-      }
-
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw new BadRequestException();
-    }
-
+  public UserDto translateDtoOutput(User user, HouseLocation houseLocation) {
 
     UserDto userDto = new UserDto(user.getEmail(), user.getFirstName(), user.getLastName(),
         user.getPhoneNumber(), user.getRideStatus().toString(), user.getRole().toString(),

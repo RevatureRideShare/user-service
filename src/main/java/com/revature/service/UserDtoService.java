@@ -13,7 +13,7 @@ public interface UserDtoService {
 
   UserDto translateDtoOutput(User user, Car car);
 
-  UserDto translateDtoOutput(User user);
+  UserDto translateDtoOutput(User user, HouseLocation houseLocation);
 
   public UserDto translateDtoOutput(User user, Car car, HouseLocation houseLocation);
 
