@@ -11,15 +11,24 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.HttpMethod;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserDtoServiceImpl implements UserDtoService {
+
+  private CarService carService;
+
+  @Autowired
+  public void setCarService(CarService carService) {
+    this.carService = carService;
+  }
 
   @Override
   public User translateDtoInput(UserDto userDto) {
@@ -51,13 +60,13 @@ public class UserDtoServiceImpl implements UserDtoService {
       con.setRequestMethod(HttpMethod.GET);
 
       // Sending HTTP Request.
-      //      con.setDoOutput(true);
-      //      OutputStream os = con.getOutputStream();
-      //      OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
-      //      osw.flush();
-      //      osw.close();
-      //      os.close();
-      //      System.out.println("Closed streams.");
+      // con.setDoOutput(true);
+      // OutputStream os = con.getOutputStream();
+      // OutputStreamWriter osw = new OutputStreamWriter(os, "UTF-8");
+      // osw.flush();
+      // osw.close();
+      // os.close();
+      // System.out.println("Closed streams.");
 
       // Reading response.
       int responseCode = con.getResponseCode();
@@ -114,7 +123,20 @@ public class UserDtoServiceImpl implements UserDtoService {
     // trainslateDtoOutput method to get a UserDto back.
     // Append each returned UserDto to a UserDto list.
     // Return UserDto list.
-    return null;
+    List<UserDto> translatedUsers = new LinkedList<>();
+
+    List<Car> allCars = carService.getAllCars();
+
+    for (User u : listUser) {
+      for (Car c : allCars) {
+        if (c.getUserID() == u.getUserID()) {
+          translatedUsers.add(translateDtoOutput(u, c));
+          break;
+        }
+      }
+    }
+
+    return translatedUsers;
   }
 
 }

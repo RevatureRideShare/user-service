@@ -5,6 +5,8 @@ import com.revature.bean.User;
 import com.revature.repo.CarRepo;
 import com.revature.repo.UserRepo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,6 +39,11 @@ public class CarServiceImpl implements CarService {
   public Car createCar(Car car) {
 
     return carRepo.save(car);
+  }
+
+  @Override
+  public List<Car> getAllCars() {
+    return carRepo.findAll();
   }
 
 }
