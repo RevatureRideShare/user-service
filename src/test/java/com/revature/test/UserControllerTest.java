@@ -74,8 +74,6 @@ class UserControllerTest {
 
   private UserDto existingUserDto;
 
-  private User nullUser;
-
   private UserDto nullUserDto;
 
   private User badFormatUser;
@@ -107,7 +105,6 @@ class UserControllerTest {
         User.RideStatus.ACTIVE, User.Role.RIDER, true, 0);
     existingUser = new User(0, "bmoney@gmail.com", "Brian", "Money", "3309842776",
         User.RideStatus.ACTIVE, User.Role.RIDER, true, 0);
-    nullUser = null;
     badFormatUser = new User(7, "bf1@gmail.com", "", "Money", "3309842776", User.RideStatus.ACTIVE,
         User.Role.RIDER, true, 0);
 
