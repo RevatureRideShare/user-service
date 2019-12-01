@@ -17,7 +17,8 @@ pipeline {
         PATH="$SONAR_SCANNER_HOME/bin:$PATH"
         SONAR_SCANNER_OPTS="-server" 
         ORG="RevatureRideShare"
-        REPO="user-service"       
+        REPO="user-service"
+        BRANCH="master"   
     }
 
     stages {
@@ -109,7 +110,7 @@ pipeline {
         stage ('Deploy') {
             steps {
                 script{
-                    if(env.BRANCH_NAME == 'master' ){
+                    if(env.BRANCH_NAME == BRANCH ){
                         withCredentials([[$class  : 'UsernamePasswordMultiBinding',
                                   credentialsId   : 'PCF_LOGIN',
                                   usernameVariable: 'USERNAME',
