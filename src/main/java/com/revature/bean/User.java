@@ -1,14 +1,10 @@
 package com.revature.bean;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -29,25 +25,25 @@ import javax.validation.constraints.Size;
  * 
  * @author: Jane Shin
  * @author: Roberto Rodriguez
- * @author: Erik Haklar
  */
 @Entity
 @Table(name = "users")
 public class User {
 
-  private enum RideStatus {
+  public enum RideStatus {
     INACTIVE, ACTIVE
   }
 
-  private enum Role {
+  public enum Role {
     RIDER, DRIVER
   }
+
 
   @Id
   @SequenceGenerator(name = "UI_SEQ", sequenceName = "user_id_seq", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UI_SEQ")
   @Column(name = "user_id")
-  private UUID userID;
+  private int userID;
 
   @Column(name = "email")
   @Email
@@ -71,25 +67,17 @@ public class User {
   private String phoneNumber;
 
   @Column(name = "ride_status")
-  @NotEmpty
-  @Size(max = 25)
   RideStatus rideStatus;
 
   @Column(name = "role")
-  @NotEmpty
-  @Size(max = 25)
   Role role;
 
   @Column(name = "account_status")
   private boolean accountStatus;
 
   @Column(name = "location_id")
-  @NotEmpty
-  UUID locationID;
 
-  @JoinColumn(name = "car_id")
-  @OneToOne
-  Car car;
+  int locationID;
 
   public User() {
     super();
@@ -110,13 +98,43 @@ public class User {
    * @param accountStatus The status of the user depending on whether their account is activated or
    *        deactivated
    * @param locationID The location id of the housing location associated with the user
-   * @param car The car object tied to the user
    */
-  public User(UUID userID, @Email @NotEmpty String email,
-      @NotEmpty @Size(max = 50) String firstName, @NotEmpty @Size(max = 50) String lastName,
+  public User(int userID, @Email @NotEmpty String email, @NotEmpty @Size(max = 50) String firstName,
+      @NotEmpty @Size(max = 50) String lastName,
       @NotEmpty @Size(max = 20) @Pattern(regexp = "^[0-9-]*$") String phoneNumber,
-      @NotEmpty @Size(max = 25) RideStatus rideStatus, @NotEmpty @Size(max = 25) Role role,
-      boolean accountStatus, @NotEmpty UUID locationID, Car car) {
+      @NotEmpty @Size(max = 25) String rideStatus, @NotEmpty @Size(max = 25) String role,
+      boolean accountStatus, int locationID) {
+    super();
+    this.userID = userID;
+    this.email = email;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phoneNumber = phoneNumber;
+    this.rideStatus = RideStatus.valueOf(rideStatus);
+    this.role = Role.valueOf(role);
+    this.accountStatus = accountStatus;
+    this.locationID = locationID;
+  }
+
+  /**
+   * This User constructor uses the below parameters.
+   * 
+   * @param userID The user id which the user can be grabbed by
+   * @param email The email address associated with the user
+   * @param firstName The first name of the user
+   * @param lastName The last name of the user
+   * @param phoneNumber The phone number associated with the user
+   * @param rideStatus The status of the user depending on whether they are giving/accepting rides
+   *        or not
+   * @param role The role of the user
+   * @param accountStatus The status of the user depending on whether their account is activated or
+   *        deactivated
+   * @param locationID The location id of the housing location associated with the user
+   */
+  public User(int userID, @Email @NotEmpty String email, @NotEmpty @Size(max = 50) String firstName,
+      @NotEmpty @Size(max = 50) String lastName,
+      @NotEmpty @Size(max = 20) @Pattern(regexp = "^[0-9-]*$") String phoneNumber,
+      RideStatus rideStatus, Role role, boolean accountStatus, int locationID) {
     super();
     this.userID = userID;
     this.email = email;
@@ -127,14 +145,13 @@ public class User {
     this.role = role;
     this.accountStatus = accountStatus;
     this.locationID = locationID;
-    this.car = car;
   }
 
-  public UUID getUserID() {
+  public int getUserID() {
     return userID;
   }
 
-  public void setUserID(UUID userID) {
+  public void setUserID(int userID) {
     this.userID = userID;
   }
 
@@ -194,20 +211,12 @@ public class User {
     this.accountStatus = accountStatus;
   }
 
-  public UUID getLocationID() {
+  public int getLocationID() {
     return locationID;
   }
 
-  public void setLocationID(UUID locationID) {
+  public void setLocationID(int locationID) {
     this.locationID = locationID;
-  }
-
-  public Car getCar() {
-    return car;
-  }
-
-  public void setCar(Car car) {
-    this.car = car;
   }
 
   @Override
@@ -215,15 +224,14 @@ public class User {
     final int prime = 31;
     int result = 1;
     result = prime * result + (accountStatus ? 1231 : 1237);
-    result = prime * result + ((car == null) ? 0 : car.hashCode());
     result = prime * result + ((email == null) ? 0 : email.hashCode());
     result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
     result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-    result = prime * result + ((locationID == null) ? 0 : locationID.hashCode());
+    result = prime * result + locationID;
     result = prime * result + ((phoneNumber == null) ? 0 : phoneNumber.hashCode());
     result = prime * result + ((rideStatus == null) ? 0 : rideStatus.hashCode());
     result = prime * result + ((role == null) ? 0 : role.hashCode());
-    result = prime * result + ((userID == null) ? 0 : userID.hashCode());
+    result = prime * result + userID;
     return result;
   }
 
@@ -240,13 +248,6 @@ public class User {
     }
     User other = (User) obj;
     if (accountStatus != other.accountStatus) {
-      return false;
-    }
-    if (car == null) {
-      if (other.car != null) {
-        return false;
-      }
-    } else if (!car.equals(other.car)) {
       return false;
     }
     if (email == null) {
@@ -270,11 +271,7 @@ public class User {
     } else if (!lastName.equals(other.lastName)) {
       return false;
     }
-    if (locationID == null) {
-      if (other.locationID != null) {
-        return false;
-      }
-    } else if (!locationID.equals(other.locationID)) {
+    if (locationID != other.locationID) {
       return false;
     }
     if (phoneNumber == null) {
@@ -290,11 +287,7 @@ public class User {
     if (role != other.role) {
       return false;
     }
-    if (userID == null) {
-      if (other.userID != null) {
-        return false;
-      }
-    } else if (!userID.equals(other.userID)) {
+    if (userID != other.userID) {
       return false;
     }
     return true;
@@ -305,7 +298,7 @@ public class User {
     return "User [userID=" + userID + ", email=" + email + ", firstName=" + firstName
         + ", lastName=" + lastName + ", phoneNumber=" + phoneNumber + ", rideStatus=" + rideStatus
         + ", role=" + role + ", accountStatus=" + accountStatus + ", locationID=" + locationID
-        + ", car=" + car + "]";
+        + "]";
   }
 
 }
