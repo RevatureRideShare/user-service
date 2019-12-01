@@ -5,44 +5,130 @@ pipeline {
     triggers {
     	pollSCM('') // Enabling being build on Push
   	}
+  	
+  	options{
+  		disableConcurrentBuilds()
+  		buildDiscarder(logRotator(numToKeepStr: '10'))
+  	}
+
+    environment{
+        SONAR_SCANNER_VERSION="4.2.0.1873"
+        SONAR_SCANNER_HOME="$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux"
+        PATH="$SONAR_SCANNER_HOME/bin:$PATH"
+        SONAR_SCANNER_OPTS="-server" 
+        ORG="RevatureRideShare"
+        REPO="user-service"       
+    }
 
     stages {
 
+        stage('Clean') {
+            steps {
+                deleteDir()
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage ('Build') {
-            steps {
-                //withMaven(maven: 'maven_3_6_2') {
-                    // Run in non-interactive (batch) mode
-                	sh 'mvn -B -DskipTests clean package'
-             //   }
+            steps {                
+                // Run in non-interactive (batch) mode
+                sh 'mvn -U -B -DskipTests clean package'
             }
         }
 
-
-        stage ('Test') {
+        stage('Checkstyle') { // Code smells
             steps {
-                //withMaven(maven: 'maven_3_6_2') {
-                	sh 'mvn verify sonar:sonar -e -X'
-                //}
+                sh 'mvn verify checkstyle:checkstyle'
             }
         }
         
-        
-        stage ('Deploy') {
+  		stage ('Jacoco') {
+  			steps{
+                jacoco(
+                    maximumLineCoverage: '100',
+                    minimumLineCoverage: '100'
+                    // execPattern: 'target/site/jacoco/jacoco.xml',
+                    // classPattern: 'target/classes',
+                    // sourcePattern: 'src/main/java',
+                    // exclusionPattern: 'src/main/java/com/revature/bean/*,src/main/javacom/revature/repo/*,src/main/java/com/revature/exception/*'
+                )
+            }
+  		}
+
+        stage('Sonar Analysis') { 
+            // performs a sonar analysis and sends code to sonarcloud
             steps {
-            //echo 'Deploy'
-                withCredentials([[$class          : 'UsernamePasswordMultiBinding',
-                                  credentialsId   : 'PCF_LOGIN',
-                                  usernameVariable: 'USERNAME',
-                                  passwordVariable: 'PASSWORD']]) {
-					
-                    sh 'cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD \
-                    -o Revature Training -s development'
-                    sh 'cf push'
-                    
+                script{
+                    if (env.CHANGE_ID) {
+                        echo 'Pull Request Detected...'
+
+                        withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){                           
+                            sh """
+                             sonar-scanner \
+                                -Dsonar.login=${env.SONAR_LOGIN_TOKEN} \
+                                -Dsonar.pullrequest.base=${env.CHANGE_TARGET} \
+                                -Dsonar.pullrequest.provider=GitHub \
+                                -Dsonar.pullrequest.key=${env.CHANGE_ID} \
+                                -Dsonar.pullrequest.github.repository=${env.ORG}/${env.REPO} \
+                                -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}
+                            """
+                        }
+                    } else {
+                            withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){
+                                sh """
+                                sonar-scanner \
+                                -Dsonar.login=${env.SONAR_LOGIN_TOKEN} \
+                                """
+                            }
+                    }   
                 }
             }
         }
+        
+        stage ('Quality Gate') {
+  			steps{
+                script{ // Hard code the Analysis URL sent to Slack 
+                        // TODO: find the official url via sonar plugin
+                    def urlComponents = env.JOB_NAME.split("/")
+                    def urlJobName = urlComponents[0]
+                    def urlSonarCloudLink = "https://sonarcloud.io/dashboard?id=RevatureRideShare_" + urlJobName
+                    slackSend message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) " +
+                    "View the SonarCloud analysis - " + urlSonarCloudLink
+                } 
+  				timeout(time: 1, unit: 'MINUTES'){
+  					waitForQualityGate abortPipeline: true
+  				}
+  			}
+  		}
 
+        stage ('Deploy') {
+            steps {
+                script{
+                    if(env.BRANCH_NAME == 'master' ){
+                        withCredentials([[$class  : 'UsernamePasswordMultiBinding',
+                                  credentialsId   : 'PCF_LOGIN',
+                                  usernameVariable: 'USERNAME',
+                                  passwordVariable: 'PASSWORD']]) {
+                        sh 'cf events rideshare-security-service'
+					    sh 'cf logs rideshare-security-service --recent'
+                        sh 'cf login -a http://api.run.pivotal.io -u $USERNAME -p $PASSWORD \
+                        -o "Revature Training" -s development'
+                        sh 'cf push'
+                        }
+                    }   
+                }
+            }
+        }
     }
-    
+        
+     post{
+       	always{
+        	deleteDir()
+        }
+    }
 }
