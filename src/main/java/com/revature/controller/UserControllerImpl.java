@@ -48,12 +48,9 @@ public class UserControllerImpl implements UserController {
   @Override
   @PostMapping("/user")
   public ResponseEntity<?> createUser(@RequestBody(required = false) UserDto userDto) {
-    System.out.println("Hit UserControllerImpl /user POST method.");
-    System.out.println("UserDto:" + userDto);
 
     // Creates a new user object.
     User user = userDtoService.translateDtoInput(userDto);
-    System.out.println("User:" + user);
     user = userService.createUser(user);
 
     // Creates the user's car.

@@ -63,21 +63,11 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<!-- <dependency> <groupId>com.h2database</groupId> <artifactId>h2</artifactId> 
-			<scope>runtime</scope> </dependency> -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
-		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-entitymanager</artifactId> 
-			<version>5.3.7.Final</version> </dependency> -->
-		<!--https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
-		<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-core</artifactId> 
-			</dependency> -->
-		<!-- <dependency> <groupId>javax.xml.bind</groupId> <artifactId>jaxb-api</artifactId> 
-			<version>2.3.0</version> </dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -107,8 +97,6 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 		</dependency>
-		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-webmvc</artifactId> 
-			</dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-config-client -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

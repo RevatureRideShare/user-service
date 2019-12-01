@@ -9,6 +9,5 @@ import org.springframework.stereotype.Repository;
 public interface CarRepo extends JpaRepository<Car, Integer> {
 
   public Car findByUserID(int userID);
-  // public Car findByEmail(String email);
 
 }

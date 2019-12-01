@@ -67,7 +67,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User getUserByEmail(String email) {
-
     if ("".equals(email) || email == null) {
       throw new NullPointerException("Email address cannot be null");
     } else {

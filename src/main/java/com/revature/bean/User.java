@@ -25,7 +25,6 @@ import javax.validation.constraints.Size;
  * 
  * @author: Jane Shin
  * @author: Roberto Rodriguez
- * @author: Erik Haklar
  */
 @Entity
 @Table(name = "users")

@@ -7,21 +7,16 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserController {
 
-  public ResponseEntity createUser(UserDto userDto);
+  public ResponseEntity<?> createUser(UserDto userDto);
 
-  public ResponseEntity updateUser(String email, UserDto userDto);
+  public ResponseEntity<?> updateUser(String email, UserDto userDto);
 
-  // public User updateUser(String email, User user);
+  public ResponseEntity<?> activateOrInactivateUser(String email, UserDto userDto);
 
-  public ResponseEntity activateOrInactivateUser(String email, UserDto userDto);
+  public ResponseEntity<?> getAllUsersByRole(Role role);
 
-  // public ResponseEntity getAllUsersByRole(Role role);
+  public ResponseEntity<?> getAllUsers();
 
-
-  public ResponseEntity getAllUsersByRole(Role role);
-
-  public ResponseEntity getAllUsers();
-
-  public ResponseEntity getUser(String email);
+  public ResponseEntity<?> getUser(String email);
 
 }

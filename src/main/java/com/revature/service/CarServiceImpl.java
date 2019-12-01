@@ -54,7 +54,6 @@ public class CarServiceImpl implements CarService {
         return carRepo.save(car);
       } catch (TransactionSystemException t) {
         Throwable myT = t.getCause().getCause();
-
         if (myT instanceof ConstraintViolationException) {
           throw ((ConstraintViolationException) myT);
         }

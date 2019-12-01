@@ -54,8 +54,6 @@ public class UserDtoServiceImpl implements UserDtoService {
       // location.
       URL obj =
           new URL("HTTP://" + host + ":" + port + "/housing-location/" + user.getLocationID());
-      System.out
-          .println("HTTP://" + host + ":" + port + "/housing-location/" + user.getLocationID());
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.GET);
 
@@ -65,17 +63,13 @@ public class UserDtoServiceImpl implements UserDtoService {
       if (responseCode == HttpURLConnection.HTTP_OK) {
 
         // If the response code is an "OK".
-        // Print the response code.
-        System.out.println("Request was successful. Status Code: " + responseCode + ".");
-
-        // Get and print the response body.
+        // Get the response body.
         BufferedReader br = new BufferedReader(new InputStreamReader((con.getInputStream())));
         StringBuilder sb = new StringBuilder();
         String output;
         while ((output = br.readLine()) != null) {
           sb.append(output);
         }
-        System.out.println(sb);
 
         // Translate from JSON into HouseLocation.
         ObjectMapper om = new ObjectMapper();

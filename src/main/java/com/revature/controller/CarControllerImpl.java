@@ -25,14 +25,12 @@ public class CarControllerImpl implements CarController {
   @PostMapping("/car")
   @ResponseStatus(HttpStatus.CREATED)
   public Car createCar(Car car) {
-
     return carServiceImpl.createCar(car);
   }
 
   @Override
   @GetMapping("/car/{email}/car")
   public Car getCar(@PathVariable String email) {
-
     return carServiceImpl.getCarByEmail(email);
   }
 

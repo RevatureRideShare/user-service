@@ -6,7 +6,6 @@ package com.revature.exception;
  *
  * @author Jane Shin
  * @author Roberto Rodriguez
- * @author Erik Haklar
  */
 public class UpdateNonexistentException extends RuntimeException {
 

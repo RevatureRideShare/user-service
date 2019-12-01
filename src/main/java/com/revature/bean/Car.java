@@ -17,7 +17,6 @@ import javax.validation.constraints.Positive;
  * a car can have.
  * 
  * @author Jane Shin
- * @author Erik Haklar
  * @author Roberto Rodriguez
  */
 @Entity

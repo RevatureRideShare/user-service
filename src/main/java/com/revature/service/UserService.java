@@ -13,10 +13,10 @@ public interface UserService {
 
   User updateUser(User user);
 
-  User patchUser(User user); // added
+  User patchUser(User user);
 
   List<User> getAllUsersByRole(Role role);
 
-  User getUserByEmail(String email); // added
+  User getUserByEmail(String email);
 
 }
