@@ -47,7 +47,8 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User updateUser(User user) {
-    if (user.getEmail() == null) {
+    User existingUser = userRepo.findByEmail(user.getEmail());
+    if (existingUser == null) {
       throw new UpdateNonexistentException("This user does not exist");
     } else {
       System.out.println("inside service");
@@ -58,9 +59,12 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User patchUser(User user) {
-    if (user.getEmail() == null) {
+    User existingUser = userRepo.findByEmail(user.getEmail());
+    if (existingUser == null) {
       throw new UpdateNonexistentException("This user does not exist");
     } else {
+      System.out.println("inside service");
+      System.out.println(user);
       return userRepo.save(user);
     }
   }

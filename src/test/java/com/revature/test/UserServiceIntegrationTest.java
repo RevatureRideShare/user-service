@@ -5,11 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.revature.bean.Car;
 import com.revature.bean.User;
+import com.revature.exception.UpdateNonexistentException;
 import com.revature.service.CarServiceImpl;
 import com.revature.service.UserServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -204,21 +207,21 @@ class UserServiceIntegrationTest {
 
   @Test
   void testCreateBadFormatCarNegativeSeats() {
-    assertThrows(TransactionSystemException.class, () -> {
+    assertThrows(ConstraintViolationException.class, () -> {
       carServiceImpl.createCar(badFormatCarNegativeSeats);
     });
   }
 
   @Test
   void testCreateBadFormatCarLowSeats() {
-    assertThrows(TransactionSystemException.class, () -> {
+    assertThrows(ConstraintViolationException.class, () -> {
       carServiceImpl.createCar(badFormatCarLowSeats);
     });
   }
 
   @Test
   void testCreateBadFormatCarHighSeats() {
-    assertThrows(TransactionSystemException.class, () -> {
+    assertThrows(ConstraintViolationException.class, () -> {
       carServiceImpl.createCar(badFormatCarHighSeats);
     });
   }
@@ -281,7 +284,7 @@ class UserServiceIntegrationTest {
 
   @Test
   void testUpdateNonExistingUser() {
-    assertThrows(TransactionSystemException.class, () -> {
+    assertThrows(UpdateNonexistentException.class, () -> {
       userServiceImpl.updateUser(nonExistingUser);
     });
   }
