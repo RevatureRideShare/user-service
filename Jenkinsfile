@@ -44,11 +44,13 @@ pipeline {
 
         stage('Checkstyle') { // Code smells
             steps {
-                try{
-                    sh 'mvn verify checkstyle:checkstyle'
-                }catch(err){
-                    echo "Caught: ${err}"
-                    currentBuild.result = 'UNSTABLE'
+                script{
+                    try{
+                        sh 'mvn verify checkstyle:checkstyle'
+                    }catch(err){
+                        echo "Caught: ${err}"
+                        currentBuild.result = 'UNSTABLE'
+                    }
                 }
             }
         }
