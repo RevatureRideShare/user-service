@@ -17,7 +17,7 @@ pipeline {
         PATH="$SONAR_SCANNER_HOME/bin:$PATH"
         SONAR_SCANNER_OPTS="-server" 
         ORG="RevatureRideShare"
-        REPO="admin-service"
+        REPO="user-service"
         BRANCH="chore/6-jenkinsfile"      
     }
 
