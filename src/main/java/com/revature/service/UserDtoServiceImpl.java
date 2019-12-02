@@ -1,27 +1,27 @@
 package com.revature.service;
 
 import static com.revature.util.LoggerUtil.trace;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.Car;
 import com.revature.bean.CarDto;
 import com.revature.bean.HouseLocation;
 import com.revature.bean.User;
 import com.revature.bean.UserDto;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.HttpMethod;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * This service is for translating user DTO's to java objects or visa-versa. DTO's allow for easy
+ * data communication between the front and back ends of the application.
+ */
 @Service
 public class UserDtoServiceImpl implements UserDtoService {
 
@@ -32,6 +32,9 @@ public class UserDtoServiceImpl implements UserDtoService {
     this.carService = carService;
   }
 
+  /**
+   * Translates UserDto to a user object.
+   */
   @Override
   public User translateDtoInput(UserDto userDto) {
     trace("translateDtoOutput input: " + userDto);
@@ -42,6 +45,9 @@ public class UserDtoServiceImpl implements UserDtoService {
     return user;
   }
 
+  /**
+   * Translates a user object and car to a userDto object.
+   */
   @Override
   public UserDto translateDtoOutput(User user, Car car) {
     trace("translateDtoOutput input: " + user + ", " + car);
@@ -99,6 +105,9 @@ public class UserDtoServiceImpl implements UserDtoService {
     return userDto;
   }
 
+  /**
+   * Translates User and HouseLocation objects into a userDto object.
+   */
   @Override
   public UserDto translateDtoOutput(User user, HouseLocation houseLocation) {
     trace("translateDtoOutput input: " + user + ", " + houseLocation);
@@ -109,6 +118,9 @@ public class UserDtoServiceImpl implements UserDtoService {
     return userDto;
   }
 
+  /**
+   * Translates User, Car, and HouseLocation objects into a userDto object.
+   */
   @Override
   public UserDto translateDtoOutput(User user, Car car, HouseLocation houseLocation) {
     trace("translateDtoOutput input: " + user + ", " + car + ", " + houseLocation);
@@ -121,6 +133,9 @@ public class UserDtoServiceImpl implements UserDtoService {
     return userDto;
   }
 
+  /**
+   * Translates a list of User objects into a UserDto list of users.
+   */
   @Override
   public List<UserDto> translateDtoOutput(List<User> listUser) {
     trace("translateDtoOutput input: " + listUser);

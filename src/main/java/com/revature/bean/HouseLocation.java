@@ -1,5 +1,13 @@
 package com.revature.bean;
 
+/**
+ * LocationID - the ID for a location in the database that provides where an associate lives.
+ * Address1 - The provided address a associate gives. Address2 - An additional address the associate
+ * may optionally provide. City - The city the associate lives in. State - the state the associate
+ * lives in. ZipCode - the zipcode for the area the associate lives in. HousingLocationName - The
+ * name of the housing location. Example: IQ Apartments. TrainingLocation - The location of where
+ * the training for the associates takes place.
+ */
 public class HouseLocation {
   private int locationID;
   private String address1;
@@ -86,9 +94,8 @@ public class HouseLocation {
    * @param housingLocationName The name of the housing location.
    * @param trainingLocation The training location DTO object.
    */
-  public HouseLocation(int locationID, String address1, String address2, String city,
-      String state, String zipCode, String housingLocationName,
-      TrainingLocation trainingLocation) {
+  public HouseLocation(int locationID, String address1, String address2, String city, String state,
+      String zipCode, String housingLocationName, TrainingLocation trainingLocation) {
     super();
     this.locationID = locationID;
     this.address1 = address1;

@@ -2,6 +2,10 @@ package com.revature.bean;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * This Bean is for information as to where the training location is for associates. An ID for the
+ * location is provided that points to a location name in the database.
+ */
 @Component
 public class TrainingLocation {
   private int trainingLocationID;
