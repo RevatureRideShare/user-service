@@ -42,70 +42,66 @@ pipeline {
             }
         }
 
-        // stage('Checkstyle') { // Code smells
-        //     steps {
-        //         sh 'mvn verify checkstyle:checkstyle'
-        //     }
-        // }
+        stage('Checkstyle') { // Code smells
+            steps {
+                sh 'mvn verify checkstyle:checkstyle'
+            }
+        }
         
-  		// stage ('Jacoco') {
-  		// 	steps{
-        //         jacoco(
-        //             maximumLineCoverage: '100',
-        //             minimumLineCoverage: '100'
-        //             // execPattern: 'target/site/jacoco/jacoco.xml',
-        //             // classPattern: 'target/classes',
-        //             // sourcePattern: 'src/main/java',
-        //             // exclusionPattern: 'src/main/java/com/revature/bean/*,src/main/javacom/revature/repo/*,src/main/java/com/revature/exception/*'
-        //         )
-        //     }
-  		// }
+  		stage ('Jacoco') {
+  			steps{
+                jacoco(
+                    maximumLineCoverage: '100',
+                    minimumLineCoverage: '100'
+                )
+            }
+  		}
 
-        // stage('Sonar Analysis') { 
-        //     // performs a sonar analysis and sends code to sonarcloud
-        //     steps {
-        //         script{
-        //             if (env.CHANGE_ID) {
-        //                 echo 'Pull Request Detected...'
+        stage('Sonar Analysis') { 
+            // performs a sonar analysis and sends code to sonarcloud
+            steps {
+                script{
+                    if (env.CHANGE_ID) {
+                        echo 'Pull Request Detected...'
 
-        //                 withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){                           
-        //                     sh """
-        //                      sonar-scanner \
-        //                         -Dsonar.login=${env.SONAR_LOGIN_TOKEN} \
-        //                         -Dsonar.pullrequest.base=${env.CHANGE_TARGET} \
-        //                         -Dsonar.pullrequest.provider=GitHub \
-        //                         -Dsonar.pullrequest.key=${env.CHANGE_ID} \
-        //                         -Dsonar.pullrequest.github.repository=${env.ORG}/${env.REPO} \
-        //                         -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}
-        //                     """
-        //                 }
-        //             } else {
-        //                     withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){
-        //                         sh """
-        //                         sonar-scanner \
-        //                         -Dsonar.login=${env.SONAR_LOGIN_TOKEN} \
-        //                         """
-        //                     }
-        //             }   
-        //         }
-        //     }
-        // }
+                        withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){                           
+                            sh """
+                             sonar-scanner \
+                                -Dsonar.login=${env.SONAR_LOGIN_TOKEN} \
+                                -Dsonar.pullrequest.base=${env.CHANGE_TARGET} \
+                                -Dsonar.pullrequest.provider=GitHub \
+                                -Dsonar.pullrequest.key=${env.CHANGE_ID} \
+                                -Dsonar.pullrequest.github.repository=${env.ORG}/${env.REPO} \
+                                -Dsonar.pullrequest.branch=${env.CHANGE_BRANCH}
+                            """
+                        }
+                    } else {
+                            withSonarQubeEnv(credentialsId: 'b44ffadc-08d5-11ea-8d71-362b9e155667', installationName:'SonarCloud'){
+                                sh """
+                                sonar-scanner \
+                                -Dsonar.login=${env.SONAR_LOGIN_TOKEN} \
+                                """
+                            }
+                    }   
+                }
+            }
+        }
         
-        // stage ('Quality Gate') {
-  		// 	steps{
-        //         script{ // Hard code the Analysis URL sent to Slack 
-        //                 // TODO: find the official url via sonar plugin
-        //             def urlComponents = env.JOB_NAME.split("/")
-        //             def urlJobName = urlComponents[0]
-        //             def urlSonarCloudLink = "https://sonarcloud.io/dashboard?id=RevatureRideShare_" + urlJobName
-        //             slackSend message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) " +
-        //             "View the SonarCloud analysis - " + urlSonarCloudLink
-        //         } 
-  		// 		timeout(time: 1, unit: 'MINUTES'){
-  		// 			waitForQualityGate abortPipeline: true
-  		// 		}
-  		// 	}
-  		// }
+        stage ('Quality Gate') {
+  			steps{
+                script{ // Hard code the Analysis URL sent to Slack 
+                        // TODO: find the official url via sonar plugin
+                    def urlComponents = env.JOB_NAME.split("/")
+                    def urlJobName = urlComponents[0]
+                    def urlSonarCloudLink = "https://sonarcloud.io/dashboard?id=RevatureRideShare_" + urlJobName
+                    slackSend message: "Build Started - ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>) " +
+                    "View the SonarCloud analysis - " + urlSonarCloudLink
+                } 
+  				timeout(time: 1, unit: 'MINUTES'){
+  					waitForQualityGate abortPipeline: true
+  				}
+  			}
+  		}
 
         stage ('Deploy') {
             steps {
