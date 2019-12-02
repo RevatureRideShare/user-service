@@ -26,8 +26,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDtoServiceImpl implements UserDtoService {
 
-  @Value("#{environment.RIDESHARE_1909_HOST}")
-  private String host;
+  @Value("#{environment.RIDESHARE_1909_LOCATION_HOST}")
+  private String locationHost;
   @Value("#{environment.RIDESHARE_1909_LOCATION_PORT}")
   private String locationPort;
 
@@ -60,8 +60,8 @@ public class UserDtoServiceImpl implements UserDtoService {
     try {
       // Opening new HTTP Request to the location service to have it gets the appropriate housing
       // location.
-      URL obj = new URL(
-          "HTTP://" + host + ":" + locationPort + "/housing-location/" + user.getLocationID());
+      URL obj = new URL("HTTP://" + locationHost + ":" + locationPort + "/housing-location/"
+          + user.getLocationID());
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.GET);
 
