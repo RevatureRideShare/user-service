@@ -25,6 +25,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDtoServiceImpl implements UserDtoService {
 
+  private static final String HOST = "localhost";
+  private static final String PORT = "8089";
+
   private CarService carService;
 
   @Autowired
@@ -47,9 +50,6 @@ public class UserDtoServiceImpl implements UserDtoService {
     trace("translateDtoOutput input: " + user + ", " + car);
     CarDto carDto = new CarDto(car.getSeatNumber());
 
-    String host = "localhost";
-    String port = "8089";
-
     // Need to get houseLocation from location service.
     // Should get the houseLocation from the location service based on the housingLocationId.
     HouseLocation houseLocation = null;
@@ -58,7 +58,7 @@ public class UserDtoServiceImpl implements UserDtoService {
       // Opening new HTTP Request to the location service to have it gets the appropriate housing
       // location.
       URL obj =
-          new URL("HTTP://" + host + ":" + port + "/housing-location/" + user.getLocationID());
+          new URL("HTTP://" + HOST + ":" + PORT + "/housing-location/" + user.getLocationID());
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.GET);
 
