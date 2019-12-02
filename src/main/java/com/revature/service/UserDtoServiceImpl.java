@@ -1,5 +1,7 @@
 package com.revature.service;
 
+import static com.revature.util.LoggerUtil.trace;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.Car;
 import com.revature.bean.CarDto;
@@ -32,14 +34,17 @@ public class UserDtoServiceImpl implements UserDtoService {
 
   @Override
   public User translateDtoInput(UserDto userDto) {
+    trace("translateDtoOutput input: " + userDto);
     User user = new User(0, userDto.getEmail(), userDto.getFirstName(), userDto.getLastName(),
         userDto.getPhoneNumber(), userDto.getRideStatus(), userDto.getRole(),
         userDto.isAccountStatus(), userDto.getHouseLocation().getlocationID());
+    trace("translateDtoOutput output: " + user);
     return user;
   }
 
   @Override
   public UserDto translateDtoOutput(User user, Car car) {
+    trace("translateDtoOutput input: " + user + ", " + car);
     CarDto carDto = new CarDto(car.getSeatNumber());
 
     String host = "localhost";
@@ -76,11 +81,13 @@ public class UserDtoServiceImpl implements UserDtoService {
         houseLocation = om.readValue(sb.toString(), HouseLocation.class);
 
       } else {
+        trace("translateDtoOutput output: BadRequestException");
         throw new BadRequestException();
       }
 
     } catch (Exception e) {
       e.printStackTrace();
+      trace("translateDtoOutput output: BadRequestException");
       throw new BadRequestException();
     }
 
@@ -88,31 +95,35 @@ public class UserDtoServiceImpl implements UserDtoService {
     UserDto userDto = new UserDto(user.getEmail(), user.getFirstName(), user.getLastName(),
         user.getPhoneNumber(), user.getRideStatus().toString(), user.getRole().toString(),
         user.isAccountStatus(), houseLocation, carDto);
+    trace("translateDtoOutput output: " + userDto);
     return userDto;
   }
 
   @Override
   public UserDto translateDtoOutput(User user, HouseLocation houseLocation) {
-
+    trace("translateDtoOutput input: " + user + ", " + houseLocation);
     UserDto userDto = new UserDto(user.getEmail(), user.getFirstName(), user.getLastName(),
         user.getPhoneNumber(), user.getRideStatus().toString(), user.getRole().toString(),
         user.isAccountStatus(), houseLocation, null);
+    trace("translateDtoOutput output: " + userDto);
     return userDto;
   }
 
   @Override
   public UserDto translateDtoOutput(User user, Car car, HouseLocation houseLocation) {
+    trace("translateDtoOutput input: " + user + ", " + car + ", " + houseLocation);
     CarDto carDto = new CarDto(car.getSeatNumber());
 
     UserDto userDto = new UserDto(user.getEmail(), user.getFirstName(), user.getLastName(),
         user.getPhoneNumber(), user.getRideStatus().toString(), user.getRole().toString(),
         user.isAccountStatus(), houseLocation, carDto);
+    trace("translateDtoOutput input: " + userDto);
     return userDto;
   }
 
   @Override
   public List<UserDto> translateDtoOutput(List<User> listUser) {
-
+    trace("translateDtoOutput input: " + listUser);
     List<UserDto> translatedUsers = new LinkedList<>();
 
     // Get list of cars from the database.
@@ -131,6 +142,7 @@ public class UserDtoServiceImpl implements UserDtoService {
     }
 
     // Return UserDto list.
+    trace("translateDtoOutput output: " + translatedUsers);
     return translatedUsers;
   }
 

@@ -281,7 +281,11 @@ class UserControllerTest {
   void testGetExistingUser() throws Exception {
     when(userService.getUserByEmail(existingUser.getEmail())).thenReturn(existingUser);
     when(carService.getCarByEmail(existingUser.getEmail())).thenReturn(car);
+
+    // when(existingUserDto.getHouseLocation()).thenReturn(houseLocation);
     when(userDtoService.translateDtoOutput(existingUser, car)).thenReturn(existingUserDto);
+    // when(userDtoService.translateDtoOutput(existingUser, existingUserDto.getHouseLocation()))
+    // .thenReturn(existingUserDto);
 
     assertEquals(new ResponseEntity<>(existingUserDto, HttpStatus.OK),
         userControllerImpl.getUser(existingUser.getEmail()));
