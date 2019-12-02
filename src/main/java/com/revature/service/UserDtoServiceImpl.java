@@ -20,13 +20,16 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.HttpMethod;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserDtoServiceImpl implements UserDtoService {
 
-  private static final String HOST = "localhost";
-  private static final String PORT = "8089";
+  @Value("#{environment.RIDESHARE_1909_HOST}")
+  private String host;
+  @Value("#{environment.RIDESHARE_1909_LOCATION_PORT}")
+  private String locationPort;
 
   private CarService carService;
 
@@ -57,8 +60,8 @@ public class UserDtoServiceImpl implements UserDtoService {
     try {
       // Opening new HTTP Request to the location service to have it gets the appropriate housing
       // location.
-      URL obj =
-          new URL("HTTP://" + HOST + ":" + PORT + "/housing-location/" + user.getLocationID());
+      URL obj = new URL(
+          "HTTP://" + host + ":" + locationPort + "/housing-location/" + user.getLocationID());
       HttpURLConnection con = (HttpURLConnection) obj.openConnection();
       con.setRequestMethod(HttpMethod.GET);
 
