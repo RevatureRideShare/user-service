@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,7 +29,7 @@ public class CarControllerImpl implements CarController {
   @Override
   @PostMapping("/car")
   @ResponseStatus(HttpStatus.CREATED)
-  public Car createCar(Car car) {
+  public Car createCar(@RequestBody Car car) {
     trace("createCar input:" + car);
     Car createdCar = carServiceImpl.createCar(car);
     trace("createCar output:" + createdCar);

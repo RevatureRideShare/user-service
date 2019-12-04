@@ -134,13 +134,20 @@ public class UserDtoServiceImpl implements UserDtoService {
 
     // Take each user object, combine with relevant car, run it through the
     // trainslateDtoOutput method to get a UserDto back.
+    boolean hasCar = false;
     for (User u : listUser) {
+      hasCar = false;
       for (Car c : allCars) {
         if (c.getUserID() == u.getUserID()) {
           // Append each returned UserDto to a UserDto list.
           translatedUsers.add(translateDtoOutput(u, c));
+          hasCar = true;
           break;
         }
+      }
+      if (hasCar == false) {
+        Car c = new Car(0, 0, 0);
+        translatedUsers.add(translateDtoOutput(u, c));
       }
     }
 

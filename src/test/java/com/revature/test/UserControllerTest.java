@@ -269,8 +269,8 @@ class UserControllerTest {
   void testGetNewUser() throws Exception {
     when(userService.getUserByEmail(newUser.getEmail())).thenReturn(null);
     when(carService.getCarByEmail(newUser.getEmail())).thenReturn(null);
-    when(userDtoService.translateDtoOutput((User) null, (Car) null))
-        .thenThrow(NullPointerException.class);
+    Car car = new Car(0, 0, 0);
+    when(userDtoService.translateDtoOutput((User) null, car)).thenThrow(NullPointerException.class);
 
     Assertions.assertThrows(NullPointerException.class, () -> {
       userControllerImpl.getUser(newUser.getEmail());
