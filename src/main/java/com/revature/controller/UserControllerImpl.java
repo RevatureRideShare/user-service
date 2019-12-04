@@ -117,7 +117,8 @@ public class UserControllerImpl implements UserController {
       @RequestBody UserDto userDto) {
     trace("activateOrInactivateUser input:" + email + ", " + userDto);
     User user = userDtoService.translateDtoInput(userDto);
-    user = userService.getUserByEmail(user.getEmail());
+    User existingUser = userService.getUserByEmail(user.getEmail());
+    user.setUserID(existingUser.getUserID());
     user = userService.updateUser(user);
     Car car = carService.getCarByEmail(user.getEmail());
     if (car != null) {
@@ -176,7 +177,12 @@ public class UserControllerImpl implements UserController {
     trace("getUser input:" + email);
     User user = userService.getUserByEmail(email);
     Car car = carService.getCarByEmail(email);
-    UserDto userDto = userDtoService.translateDtoOutput(user, car);
+    UserDto userDto;
+    if (car == null) {
+      userDto = userDtoService.translateDtoOutput(user, new Car(0, 0, 0));
+    } else {
+      userDto = userDtoService.translateDtoOutput(user, car);
+    }
     ResponseEntity<?> responseEntity = new ResponseEntity<>(userDto, HttpStatus.OK);
     trace("getUser output:" + responseEntity);
     return responseEntity;
