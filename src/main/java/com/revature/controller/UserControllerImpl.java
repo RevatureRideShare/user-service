@@ -57,8 +57,11 @@ public class UserControllerImpl implements UserController {
     user = userService.createUser(user);
 
     // Creates the user's car.
-    Car car = new Car(0, user.getUserID(), userDto.getCarDto().getSeatNumber());
-    car = carService.createCar(car);
+    Car car = null;
+    if (userDto.getCarDto().getSeatNumber() != 0) {
+      car = new Car(0, user.getUserID(), userDto.getCarDto().getSeatNumber());
+      car = carService.createCar(car);
+    }
 
     // Translates any changes back into a userDto object and returns them.
     if (car != null) {
