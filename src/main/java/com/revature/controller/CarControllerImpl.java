@@ -1,10 +1,8 @@
 package com.revature.controller;
 
 import static com.revature.util.LoggerUtil.trace;
-
 import com.revature.bean.Car;
 import com.revature.service.CarServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,6 +12,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Uses mappings to communicate with the front-end. There is a PostMapping where the front-end tells
+ * the back-end to create a car, passing in the car info. There is a GetMapping where the front-end
+ * asks the back-end to return a car object for a provided/passed in email.
+ */
 @RestController
 @CrossOrigin
 public class CarControllerImpl implements CarController {

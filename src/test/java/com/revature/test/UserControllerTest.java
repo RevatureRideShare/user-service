@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.revature.bean.Car;
@@ -18,12 +17,9 @@ import com.revature.controller.UserControllerImpl;
 import com.revature.service.CarService;
 import com.revature.service.UserDtoService;
 import com.revature.service.UserService;
-
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.validation.ConstraintViolationException;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -42,6 +38,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+/**
+ * Test class for the UserController.java.
+ */
 @SpringBootTest
 class UserControllerTest {
   @Mock
@@ -90,6 +89,9 @@ class UserControllerTest {
 
   }
 
+  /**
+   * Before each test run, setUp() is called to create new objects with hard coded info for testing.
+   */
   @BeforeEach
   void setUp() throws Exception {
     MockitoAnnotations.initMocks(this);
@@ -121,6 +123,7 @@ class UserControllerTest {
   void tearDown() throws Exception {
 
   }
+
 
   @Test
   void testCreateNewUser() throws JsonProcessingException, Exception {

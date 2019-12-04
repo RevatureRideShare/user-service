@@ -1,7 +1,6 @@
 package com.revature.controller;
 
 import static com.revature.util.LoggerUtil.trace;
-
 import com.revature.bean.Car;
 import com.revature.bean.User;
 import com.revature.bean.User.Role;
@@ -9,11 +8,8 @@ import com.revature.bean.UserDto;
 import com.revature.service.CarService;
 import com.revature.service.UserDtoService;
 import com.revature.service.UserService;
-
 import java.util.List;
-
 import javax.ws.rs.QueryParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +21,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This controller is for communication with the front-end. Handles all posts and requests for user
+ * related management and information.
+ */
 @RestController
 public class UserControllerImpl implements UserController {
 
@@ -47,6 +47,10 @@ public class UserControllerImpl implements UserController {
     this.userDtoService = userDtoService;
   }
 
+  /**
+   * Here, the front-end tells the back-end to create a new user by passing in a userDTO which is
+   * used to get the user object for that user.
+   */
   @Override
   @PostMapping("/user")
   public ResponseEntity<?> createUser(@RequestBody(required = false) UserDto userDto) {
@@ -79,6 +83,12 @@ public class UserControllerImpl implements UserController {
    * needs to return a response entity since we are utilizing DTOs. Logic flow is performed to find
    * out whether the user has a car or not and calls the appropriate overloaded method in the
    * userDtoService class. Then it returns the DTO.
+   * ----------------------------------------------------------------------------------------------
+   * Here the front-end asks the back-end to update a user to be either active or inactive. The
+   * front-end passes in a email allowing for the identification of the user object associated and a
+   * userDTO object. This information is used to update the user's information in the back-end.
+   * Returns a userDTO object and HttpStatus code. Note: This is for when a user wants to update
+   * their own information.
    */
   @Override
   @PutMapping("/user/{email}")
@@ -107,6 +117,11 @@ public class UserControllerImpl implements UserController {
    * entity since we are utilizing DTOs. Logic flow is performed to find out whether the user has a
    * car or not and calls the appropriate overloaded method in the userDtoService class. Then it
    * returns the DTO in a response entity.
+   * -------------------------------------------------------------------------------------------
+   * Here, the front-end asks the back-end to update a user to be either active or inactive. The
+   * front-end passes in a email allowing for the identification of the user object associated and a
+   * userDTO object. This information is used to update the user's information in the back-end.
+   * Returns a userDTO object and HttpStatus code. Note: Available to admins only!
    */
   @Override
   @PatchMapping("/user/{email}")
@@ -128,9 +143,11 @@ public class UserControllerImpl implements UserController {
   }
 
   /**
-   * Method controller for getting all users by their role. It creates a list of all users by role
-   * and creates a userDtolist in the userDtoService class. It then returns that userDto list object
-   * in a response entity.
+   * Method controller for getting all users by their role. Here the front-end asks the back-end to
+   * return a userDTOList object with a HttpStatus code. When the /user/ endpoint is hit,
+   * getALLUsers() is called which simply grabs all user objects in the back-end and translates them
+   * into a userDto list object that is returned in a response entity. A DTO stores information that
+   * is ready to be passed back to the front-end.
    */
   @Override
   @GetMapping("/user/")
@@ -144,9 +161,11 @@ public class UserControllerImpl implements UserController {
   }
 
   /**
-   * Method controller for getting all users that exist in the database. It creates a list of all
-   * users and creates a userDtolist in the userDtoService class. It then returns that userDto list
-   * object in a response entity.
+   * Method controller for getting all users that exist in the database. Here the front-end asks the
+   * back-end to return a userDTOList object with a HttpStatus code. When the /user endpoint is hit,
+   * getALLUsers() is called which simply grabs all user objects in the back-end and translates them
+   * to return a userDto list object in a response entity. A DTO stores information that is ready to
+   * be passed back to the front-end.
    */
   @Override
   @GetMapping("/user")
@@ -165,7 +184,8 @@ public class UserControllerImpl implements UserController {
    * car by the email address that was passed in. The method needs to return a response entity since
    * we are utilizing DTOs. Logic flow is performed to find out whether the user has a car or not
    * and calls the appropriate overloaded method in the userDtoService class. Then it returns the
-   * DTO in a response entity.
+   * DTO in a response entity. Here the front-end asks the back-end to return a userDTO object and a
+   * HttpStatus code.
    */
   @Override
   @GetMapping("/user/{email}")

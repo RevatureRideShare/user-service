@@ -1,5 +1,15 @@
 package com.revature.bean;
 
+/**
+ * A DTO allows for easy transfer of Angular Typescript data to Java code. This DTO is for grabbing
+ * information entered by a user on the front end about that user.
+ * 
+ * Email - the email the user provided. FirstName - the first name of said user. LastName - the last
+ * name of said user. PhoneNumber - the phone number of said user. RideStatus - Does the user
+ * currently have a car? AccountStatus - Is this user account still active or banned/dropped?
+ * HouseLocation - the Bean for the location of where the user lives. CarDTO - The Bean for the
+ * information of the user's car.
+ */
 public class UserDto {
   private String email;
   private String firstName;

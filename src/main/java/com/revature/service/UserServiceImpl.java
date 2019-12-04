@@ -1,19 +1,19 @@
 package com.revature.service;
 
 import static com.revature.util.LoggerUtil.trace;
-
 import com.revature.bean.User;
 import com.revature.bean.User.Role;
 import com.revature.exception.UpdateNonexistentException;
 import com.revature.repo.UserRepo;
-
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ * Service implementation for getting and creating/updating users.
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
